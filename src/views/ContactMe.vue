@@ -59,14 +59,10 @@
               clearable
               required
             />
-            <v-row>
-              <v-col offset="10" cols="2">
-                <v-btn x-large type="submit" color="primary"><v-icon>mdi-send</v-icon></v-btn>
-              </v-col>
-            </v-row>
-
+            <div class="d-flex justify-end">
+              <v-btn x-large type="submit" color="primary"><v-icon>mdi-send</v-icon></v-btn>
+            </div>
         </form>
-
         </template>
         <template v-slot:actions>  </template>
       </Section>
