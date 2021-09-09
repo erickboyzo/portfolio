@@ -28,8 +28,8 @@
         >
           <input
             type="hidden"
-            name="contact-info"
-            value="ask-question">
+            name="form-name"
+            value="contact-info">
             <v-text-field
               v-model="form.name"
               label="Your Name"
