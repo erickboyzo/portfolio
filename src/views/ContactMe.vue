@@ -20,16 +20,12 @@
 
         </template>
         <template v-slot:content>
-          <form name="contact-info"
-          method="POST"
-          data-netlify="true"
-          data-netlify-honeypot="bot-field"
-          @submit.prevent="handleSubmit"
-        >
+          <form name="contact"
+          @submit.prevent="handleSubmit">
           <input
             type="hidden"
             name="form-name"
-            value="contact-info">
+            value="contact">
             <v-text-field
               v-model="form.name"
               label="Your Name"
@@ -106,7 +102,7 @@ export default {
       axios.post(
         '/',
         this.encode({
-          'form-name': 'contact-info',
+          'form-name': 'contact',
           ...this.form,
         }),
         axiosConfig,
