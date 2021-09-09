@@ -21,12 +21,13 @@
         </template>
         <template v-slot:content>
           <form name="contact"
+          method="post"
+          data-netlify="true"
+          data-netlify-honeypot="bot-field"
           @submit.prevent="handleSubmit">
-          <input
-            type="hidden"
-            name="form-name"
-            value="contact">
+            <input type="hidden" name="form-name" value="contact" />
             <v-text-field
+              name="name"
               v-model="form.name"
               label="Your Name"
               outlined
@@ -34,6 +35,7 @@
               required
             />
             <v-text-field
+              name="email"
               v-model="form.email"
               label="Email"
               type="email"
@@ -42,6 +44,7 @@
               required
             />
           <v-text-field
+            name="subject"
             v-model="form.subject "
             label="Subject"
             outlined
@@ -49,6 +52,7 @@
             required
           />
             <v-textarea
+              name="message"
               v-model="form.message"
               label="Message"
               outlined
