@@ -1,7 +1,7 @@
 <template>
 
   <v-row no-gutters>
-    <v-col v-if="false" cols="12 mt-2">
+    <v-col v-if="sent" cols="12 mt-2">
       <v-alert
         dense
         prominent
@@ -20,11 +20,8 @@
 
         </template>
         <template v-slot:content>
-          <form name="contact"
-                 method="post"
-                 data-netlify="true"
-                 data-netlify-honeypot="bot-field"
-                 @submit.prevent="handleSubmit">
+          <form method="post"
+                @submit.prevent="handleSubmit">
             <input type="hidden" name="form-name" value="contact" />
             <v-text-field
               name="name"
@@ -85,6 +82,7 @@ export default {
       subject: '',
       message: '',
     },
+    sent : false,
   }),
   methods: {
     resetForm() {
@@ -100,20 +98,23 @@ export default {
         .join('&');
     },
     handleSubmit() {
-      const axiosConfig = {
-        header: { 'Content-Type': 'application/x-www-form-urlencoded' },
-      };
-      axios.post(
-        '/',
-        this.encode({
-          'form-name': 'contact',
-          ...this.form,
-        }),
-        axiosConfig,
-      ).then(() => {
-        this.resetForm();
+      fetch("/", {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: this.encode({
+          "form-name": "contact",
+          ...this.form
+        })
       })
-        .catch((e) => console.log(e));
+        .then(() => {
+         console.log('Success!')
+          this.sent = true;
+          this.resetForm();
+          setTimeout(() => { this.sent = false }, 3000)
+        })
+        .catch(() => {
+          console.log('Error!')
+        });
     },
   },
 };
