@@ -69,7 +69,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+
 import Section from '../components/Section.vue';
 
 export default {
@@ -82,7 +82,7 @@ export default {
       subject: '',
       message: '',
     },
-    sent : false,
+    sent: false,
   }),
   methods: {
     resetForm() {
@@ -98,22 +98,24 @@ export default {
         .join('&');
     },
     handleSubmit() {
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
         body: this.encode({
-          "form-name": "contact",
-          ...this.form
-        })
+          'form-name': 'contact',
+          ...this.form,
+        }),
       })
         .then(() => {
-         console.log('Success!')
+          console.log('Success!');
           this.sent = true;
           this.resetForm();
-          setTimeout(() => { this.sent = false }, 3000)
+          setTimeout(() => {
+            this.sent = false;
+          }, 3000);
         })
         .catch(() => {
-          console.log('Error!')
+          console.log('Error!');
         });
     },
   },
