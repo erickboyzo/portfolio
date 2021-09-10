@@ -20,7 +20,11 @@
 
         </template>
         <template v-slot:content>
-          <form @submit.prevent="handleSubmit">
+          <form name="contact"
+                 method="post"
+                 data-netlify="true"
+                 data-netlify-honeypot="bot-field"
+                 @submit.prevent="handleSubmit">
             <input type="hidden" name="form-name" value="contact" />
             <v-text-field
               name="name"
