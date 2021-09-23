@@ -54,8 +54,11 @@
                     <a class="v-list-item--link" target="_blank"
                        :href="'mailto: ' + icon.value">{{ icon.value }}</a>
                   </div>
-                  <div v-else class="label__info my-5 ml-5 font-weight-light"> {{ icon.value }}</div>
-                  <v-divider v-if="index !== ($Constants.ABOUT_ICONS.length - 1)"></v-divider>
+                  <div v-else class="label__info my-5 ml-5 font-weight-light">
+                    {{ icon.value }}
+                  </div>
+                  <v-divider v-if="index !== ($Constants.ABOUT_ICONS.length - 1)">
+                  </v-divider>
                 </div>
               </v-col>
             </v-row>
