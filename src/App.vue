@@ -1,28 +1,24 @@
 <template>
   <v-app id="portfolio">
     <Header/>
-    <v-main >
-      <v-container id="scrolling-techniques-7">
-
-        <transition :name="transitionName">
+    <v-main>
+      <v-container id="content-container">
+        <transition :name="transitionName" mode="out-in">
           <router-view class="view"></router-view>
         </transition>
         <v-btn class="message-me"
                v-if="$route.name === 'Projects' || $route.name === 'About'"
                @click="$router.push('contact')"
                fixed
-               color="accent"
-               elevation="12"
+               color="secondary"
                fab
                bottom
-               icon
                right>
-          <v-icon>mdi-email-send</v-icon>
+          <v-icon>mdi-message-text</v-icon>
         </v-btn>
       </v-container>
     </v-main>
-
-   <Footer/>
+    <Footer/>
   </v-app>
 </template>
 
@@ -35,12 +31,12 @@ export default Vue.extend({
   name: 'App',
   components: { Footer, Header },
   data: () => ({
-    transitionName: 'slide-left',
+    transitionName: 'slide-right',
   }),
   watch: {
-    $route: (to, from) => {
+    $route(to, from) {
       if (to.meta.index > from.meta.index) {
-        this.transitionName = to.meta.index === 2 ? 'slide' : 'slide-left';
+        this.transitionName = to.meta.index === 2 ? 'fade' : 'slide-left';
       } else {
         this.transitionName = 'slide-right';
       }
@@ -49,7 +45,7 @@ export default Vue.extend({
 });
 </script>
 
-<style>
+<style lang="scss">
 .fade-enter-active, .fade-leave-active {
   transition: opacity .75s ease;
 }
@@ -118,6 +114,6 @@ export default Vue.extend({
 }
 
 .message-me{
-  bottom: 90px!important;
+  bottom: 110px!important;
 }
 </style>
