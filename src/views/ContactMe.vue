@@ -1,10 +1,12 @@
 <template>
   <v-row no-gutters>
     <v-col v-if="sent" cols="12 mt-2">
-      <v-alert
-        dense
-        prominent
-        type="success" v-html="$Constants.MESSAGE_SUCCESS">
+      <v-alert class="pa-4 subtitle-1"
+               elevation="4"
+               id="success-alert"
+               dense
+               prominent
+               type="success" v-html="$Constants.MESSAGE_SUCCESS">
       </v-alert>
     </v-col>
     <v-col cols="12">
@@ -114,6 +116,9 @@ export default {
         .then(() => {
           this.sent = true;
           this.resetForm();
+          this.$nextTick(() => {
+            this.$vuetify.goTo('#success-alert');
+          });
           setTimeout(() => {
             this.sent = false;
           }, 8000);
