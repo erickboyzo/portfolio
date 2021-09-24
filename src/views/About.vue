@@ -18,7 +18,7 @@
                     </span>
                   </div>
                 </v-col>
-                <v-col cols="12" class="d-flex justify-center py-2">
+                <v-col cols="12" class="d-flex justify-center py-2 info-icons">
                   <IconLinks></IconLinks>
                 </v-col>
               </v-row>
@@ -34,7 +34,26 @@
                 <div class="mt-5 px-6">
                   <h2 class="d-flex justify-center font-weight-regular my-5">
                     {{ $Constants.ABOUT_ME }}</h2>
-                  <p v-html="$Constants.ABOUT_CONTENT"></p>
+                  <p class="text--primary" v-html="$Constants.ABOUT_CONTENT"></p>
+                  <div class="d-flex flex-md-row flex-column justify-center py-4">
+                    <v-btn
+                      class="mx-auto my-2"
+                      to="projects"
+                      color="primary"
+                      outlined>
+                      <v-icon class="mr-2" small>mdi-file-code-outline</v-icon>
+                      {{ $Constants.VIEW_PROJECTS }}
+                    </v-btn>
+                    <v-btn
+                      class="mx-auto my-2"
+                      to="contact"
+                      color="primary"
+                      outlined>
+                      <v-icon class="mr-2" small>mdi-message-draw</v-icon>
+                      {{ $Constants.CONTACT_ME }}
+                    </v-btn>
+                  </div>
+
                 </div>
 
               </v-col>
@@ -50,11 +69,11 @@
                             class="mr-2">{{ icon.icon }}
                     </v-icon>
                     {{ icon.label }}</label>
-                  <div v-if="icon.link" class="my-5 ml-5 font-weight-light">
+                  <div v-if="icon.link" class="my-5 ml-5 font-weight-light text--primary">
                     <a class="v-list-item--link" target="_blank"
                        :href="'mailto: ' + icon.value">{{ icon.value }}</a>
                   </div>
-                  <div v-else class="label__info my-5 ml-5 font-weight-light">
+                  <div v-else class="label__info my-5 ml-5 font-weight-light text--primary">
                     {{ icon.value }}
                   </div>
                   <v-divider v-if="index !== ($Constants.ABOUT_ICONS.length - 1)">
@@ -98,7 +117,7 @@ export default Vue.extend({
   },
 });
 </script>
-<style lang="scss" scoped>
+<style lang="scss">
 .typewriter h3 {
   overflow: hidden;
   border-right: .15em solid orange;
@@ -127,11 +146,12 @@ export default Vue.extend({
   }
 }
 
-.icon-link.theme--light.v-btn.v-btn--icon {
-  color: white !important;
-
-  i {
-    font-size: 36px;
+.info-icons{
+  .icon-link {
+    color: white !important;
+    i {
+      font-size: 34px;
+    }
   }
 }
 
