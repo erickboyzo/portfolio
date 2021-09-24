@@ -3,17 +3,34 @@ const Constants = {
     Vue.prototype.$Constants = {
       APP_NAME: 'Erick Boyzo',
       ABOUT_ME_TITLES: ['Front-End Developer.', 'UI Developer.', 'Full Stack Developer.'],
-      MESSAGE_SUCCESS: '<strong>Message Delivered!</strong> Thank you for contacting me, I will reach back to you shortly.',
+      MESSAGE_SUCCESS: '<strong>Message Delivered!</strong> Thank you for contacting me, I will respond back as soon as possible.',
       CONTACT_ME: 'Contact Me',
+      VIEW_PROJECTS: 'View Projects',
       PROJECTS: 'Projects & Skills',
+      ABOUT_PERSONAL_DETAILS: 'Personal Details',
       SOCIAL_ICONS: [
         { icon: 'devicon-linkedin-plain', link: 'https://www.linkedin.com/in/erick-boyzo-258023a1' },
         { icon: 'devicon-github-original', link: 'https://github.com/erickboyzo' }],
       ABOUT_ME: 'About Me',
-      ABOUT_CONTENT: 'Greatest properly off ham exercise all.\n'
-        + 'Unsatiable invitation its possession nor off. All difficulty\n'
-        + 'estimating unreserved increasing the solicitude.',
-      ABOUT_PERSONAL_DETAILS: 'Personal Details',
+      ABOUT_CONTENT: 'Hello there! I\'m <strong>Erick Boyzo</strong>,\n'
+        + '                    <br>\n'
+        + '                    <br>\n'
+        + '                    Enthusiastic Front-End Developer with a passion for creating engaging and\n'
+        + '                    user-friendly web applications that simplify our daily experiences and tasks.\n'
+        + '                    <br>\n'
+        + '                    <br>\n'
+        + '                    While my domain of expertise is Front-End Development,\n'
+        + '                    I genuinely enjoy exploring Full-Stack Development,\n'
+        + '                    Mobile Application Development, and Automation.\n'
+        + '                    It\'s seeing an idea come to fruition or providing a solution to\n'
+        + '                    an existing\n'
+        + '                    problem, that I appreciate most about software development and what keeps\n'
+        + '                    me motivated.\n'
+        + '                    <br>\n'
+        + '                    <br>\n'
+        + '                    Have an idea you want to collaborate on?\n'
+        + '                    Want to provide some feedback or just want to say hello?\n'
+        + '                    Don\'t be shy, please feel free to send me a message.',
       ABOUT_ICONS: [
         { icon: 'mdi-map-marker', label: 'Residence', value: 'Atlanta, GA, United States' },
         {
