@@ -53,7 +53,7 @@
                           rounded
                           height="45">
                           <template slot="default">
-                            <div class="text-subtitle-2">
+                            <div class="text-subtitle-2 white--text">
                               {{ skill.label }}
                             </div>
                           </template>
