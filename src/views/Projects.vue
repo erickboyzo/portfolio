@@ -1,6 +1,6 @@
 <template>
   <div class="project">
-    <v-container>
+    <v-container class="pa-0">
       <v-row>
         <v-col cols="12"
                md="12">
