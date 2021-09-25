@@ -1,9 +1,8 @@
 <template>
   <v-footer
     absolute
-    app
-  >
-    <v-container class="py-5 fill-height">
+    app>
+    <v-container id="footer-container" class="py-5 fill-height">
       <v-row>
         <v-col cols="12" class="d-flex justify-center pa-0">
           <IconLinks></IconLinks>

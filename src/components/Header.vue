@@ -4,7 +4,7 @@
     elevation="0"
     flat
     scroll-target="#content-container">
-    <v-container class="pa-0 d-flex align-center">
+    <v-container id="header-container" class="pa-0 d-flex align-center">
       <v-app-bar-nav-icon class="hidden-sm-and-up mr-2"
                           @click="drawer = true"></v-app-bar-nav-icon>
       <v-avatar
