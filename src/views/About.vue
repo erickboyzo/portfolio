@@ -4,7 +4,6 @@
       <v-col cols="12">
         <Section>
           <template v-slot:header>
-            <v-container class="pa-0">
               <v-row>
                 <v-col cols="12" class="d-flex justify-center py-2">
                   <h1 class="font-weight-regular">{{ $Constants.APP_NAME }}</h1>
@@ -22,7 +21,6 @@
                   <IconLinks></IconLinks>
                 </v-col>
               </v-row>
-            </v-container>
           </template>
           <template v-slot:content>
             <v-row>
