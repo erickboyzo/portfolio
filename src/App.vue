@@ -116,4 +116,7 @@ export default Vue.extend({
 .message-me{
   bottom: 110px!important;
 }
+#content-container, #header-container, #footer-container{
+  max-width: 1200px;
+}
 </style>
