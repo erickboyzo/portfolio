@@ -61,7 +61,7 @@
             />
             <div class="d-flex justify-end">
               <v-btn x-large type="submit" rounded elevation="4"
-                     color="primary">Send Message
+                     color="primary">{{ $Constants.SEND_MESSAGE }}
                 <v-icon class="ml-3">mdi-send</v-icon>
               </v-btn>
             </div>
