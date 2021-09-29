@@ -80,7 +80,8 @@
           class="text-capitalize pb-0">{{ project.formattedName }}
         </v-card-title>
         <div class="card__body flex-grow-1">
-          <v-card-subtitle class="text--secondary py-1">{{ $Constants.DESCRIPTION }}</v-card-subtitle>
+          <v-card-subtitle class="text--secondary py-1">
+            {{ $Constants.DESCRIPTION }}</v-card-subtitle>
           <v-card-text class="pb-0">
             <p class="text--primary mb-1">
               {{ project.description }}
