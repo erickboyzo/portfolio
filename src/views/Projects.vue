@@ -37,7 +37,8 @@
                     cols="12"
                     md="6">
                     <div class="pa-4">
-                      <h1 class="d-flex justify-center">Development Experience</h1>
+                      <h2 class="d-flex justify-center
+                      font-weight-regular text--primary text-h5">{{$Constants.DEV_EXPERIENCE}}</h2>
                     </div>
                     <div class="pa-5" v-for="(skill, index) in developmentSills"
                          v-bind:key="index">
@@ -48,12 +49,13 @@
                           </v-icon>
                         </div>
                         <v-progress-linear
+                          class="rounded-pill"
                           :value="skill.experience"
                           color="primary"
                           rounded
                           height="45">
                           <template slot="default">
-                            <div class="text-subtitle-2 white--text">
+                            <div class="experience-label white--text">
                               {{ skill.label }}
                             </div>
                           </template>
@@ -65,24 +67,42 @@
                     cols="12"
                     md="6">
                     <div class="pa-4">
-                      <h1 class="d-flex justify-center">Technical Skills</h1>
+                      <h2 class="d-flex justify-center
+                      font-weight-regular text--primary text-h5">{{$Constants.TECH_SKILLS}}</h2>
                     </div>
-                    <div class="pa-5" v-for="(skill, index) in skillsData"
+                    <div class="pa-5" v-for="(skill, index) in
+                    (showLess ? skillsData.slice(0, 4) :skillsData)"
                          v-bind:key="index">
                       <div class="d-flex flex-row justify-center">
                         <div class="mr-3">
                       <span class="v-icon project-icon">
                         <i :class="skill.icon"></i></span>
                         </div>
-                        <v-progress-linear
+                        <v-progress-linear class="rounded-pill"
                           :value="skill.experience"
                           color="primary"
                           rounded
                           height="45"
                         >
+                          <div class="d-flex justify-space-between text-subtitle-2
+                          white--text flex-grow-1">
+                            <div class="ml-2">{{skill.displayLabel}}</div>
+                            <div class="mr-2">
+                              <strong>{{Math.ceil(skill.experience)}}%</strong>
+                            </div>
+                          </div>
                         </v-progress-linear>
                       </div>
                     </div>
+                    <div class="d-flex justify-center">
+                      <v-btn
+                        large
+                        color="primary"
+                        outlined
+                        @click="showLess =!showLess">
+                        {{ showLess ? $Constants.SHOW_MORE: $Constants.SHOW_LESS }}
+                        <v-icon>{{ showLess ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
+                    </v-btn></div>
                   </v-col>
                 </v-row>
               </template>
@@ -110,6 +130,7 @@ export default {
     projectsData: null,
     skillsData: null,
     developmentSills: null,
+    showLess: true,
     attrs: {
       class: 'mb-6',
       boilerplate: true,
@@ -171,6 +192,10 @@ export default {
 <style scoped>
 .project-icon {
   font-size: xxx-large;
+}
+
+.experience-label {
+  font-size: 13px;
 }
 
 </style>
