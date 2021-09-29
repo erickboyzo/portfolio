@@ -29,10 +29,10 @@
                        src="@/assets/images/me.jpg"></v-img>
               </v-col>
               <v-col class="d-flex flex-column" cols="12" sm="6">
-                <div class="mt-5 px-6">
-                  <h2 class="d-flex justify-center font-weight-regular my-5">
+                <div class="px-6">
+                  <h2 class="d-flex justify-center font-weight-regular my-5 text--primary text-h5">
                     {{ $Constants.ABOUT_ME }}</h2>
-                  <p class="text--primary" v-html="$Constants.ABOUT_CONTENT"></p>
+                  <p class="text--primary about-me-content" v-html="$Constants.ABOUT_CONTENT"></p>
                   <div class="d-flex flex-md-row flex-column justify-center py-4">
                     <v-btn
                       class="mx-auto my-2"
@@ -51,15 +51,12 @@
                       {{ $Constants.CONTACT_ME }}
                     </v-btn>
                   </div>
-
                 </div>
-
               </v-col>
               <v-divider vertical></v-divider>
               <v-col sm="6" cols="12">
-                <h2 class="d-flex justify-center my-8 font-weight-regular">
+                <h2 class="d-flex justify-center font-weight-regular my-5 text--primary text-h5">
                   {{ $Constants.ABOUT_PERSONAL_DETAILS }}</h2>
-
                 <div class="detail px-6 mt-3"
                      v-for="(icon, index) in $Constants.ABOUT_ICONS" v-bind:key="icon.label">
                   <label class="my-5 font-weight-medium">
@@ -157,5 +154,9 @@ export default Vue.extend({
   label, a, .label__info {
     font-size: 18px;
   }
+}
+
+.about-me-content {
+  font-size: 16px;
 }
 </style>
