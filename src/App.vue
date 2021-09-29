@@ -1,6 +1,6 @@
 <template>
   <v-app id="portfolio">
-    <Header/>
+    <Header :flush-header="isAtTopPage"/>
     <v-main>
       <v-container id="content-container">
         <transition :name="transitionName" mode="out-in">
@@ -32,7 +32,19 @@ export default Vue.extend({
   components: { Footer, Header },
   data: () => ({
     transitionName: 'slide-right',
+    isAtTopPage: false,
   }),
+  methods: {
+    scroll() {
+      window.onscroll = () => {
+        this.isAtTopPage = !window.pageYOffset;
+      };
+    },
+  },
+  mounted() {
+    this.isAtTopPage = !window.pageYOffset;
+    this.scroll();
+  },
   watch: {
     $route(to, from) {
       if (to.meta.index > from.meta.index) {
@@ -118,5 +130,9 @@ export default Vue.extend({
 }
 #content-container, #header-container, #footer-container{
   max-width: 1200px;
+}
+
+.theme--light.v-application {
+  background: #ECF0F1 !important;
 }
 </style>
