@@ -1,8 +1,9 @@
 <template>
   <v-app-bar
     app
-    elevation="0"
     flat
+    :elevation="flushHeader ? 0: 8"
+    v-bind:class="{ 'flush-header' : flushHeader }"
     scroll-target="#content-container">
     <v-container id="header-container" class="pa-0 d-flex align-center">
       <v-app-bar-nav-icon class="hidden-sm-and-up mr-2"
@@ -13,10 +14,12 @@
         size="42"
       >{{ abv }}
       </v-avatar>
-      <v-app-bar-title width="auto">
-        <router-link to="/about" tag="span" style="cursor: pointer">
-          {{ appTitle }}
-        </router-link>
+      <v-app-bar-title  class="dev-name text-h5">
+        <div>
+          <router-link to="/about" tag="span" style="cursor: pointer">
+            {{ appTitle }}
+          </router-link>
+        </div>
       </v-app-bar-title>
       <v-spacer class="hidden-xs-only"></v-spacer>
       <v-toolbar-items class="hidden-xs-only button-nav">
@@ -33,7 +36,7 @@
        <span>
   <v-tooltip v-if="!$vuetify.theme.dark" bottom>
     <template v-slot:activator="{ on }">
-      <v-btn v-on="on" elevation="3" large icon @click="toggleTheme">
+      <v-btn v-on="on" elevation="2" icon @click="toggleTheme">
         <v-icon class="mr-1">mdi-theme-light-dark</v-icon>
       </v-btn>
     </template>
@@ -42,7 +45,7 @@
 
   <v-tooltip v-else bottom>
     <template v-slot:activator="{ on }">
-      <v-btn v-on="on" large icon @click="toggleTheme">
+      <v-btn v-on="on" icon @click="toggleTheme">
         <v-icon>mdi-theme-light-dark</v-icon>
       </v-btn>
     </template>
@@ -55,15 +58,12 @@
         temporary
         app
         height="100vh"
-        hide-overlay
-      >
+        hide-overlay>
         <v-list
           nav
-          dense
-        >
+          dense>
           <v-list-item-group
-            v-model="group"
-          >
+            v-model="group">
             <v-list-item v-for="link in links"
                          v-bind:key="link.link"
                          :to="link.link">
@@ -77,9 +77,9 @@
 </template>
 
 <script>
-
 export default {
   name: 'Header',
+  props: ['flushHeader'],
   data: () => ({
     links: [
       { title: 'About Me', link: 'about' },
@@ -100,17 +100,27 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.theme-toggle{
-  span{
+.theme-toggle {
+  span {
     margin-bottom: 1px;
   }
   display: flex;
   flex-direction: column;
   align-items: flex-end;
 }
-.button-nav{
+
+.button-nav {
   min-height: 64px;
-  height: 64px!important;
+  height: 64px !important;
   margin-right: 10px;
+}
+
+.flush-header {
+  &.theme--light.v-app-bar.v-toolbar.v-sheet{
+    background-color: transparent !important;
+  }
+  &.theme--dark.v-app-bar.v-toolbar.v-sheet{
+    background-color: transparent !important;
+  }
 }
 </style>
