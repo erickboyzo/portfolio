@@ -8,49 +8,64 @@
       </v-img>
     </div>
     <v-card-title
-      class="text-capitalize text-h5">{{project.formattedName}}</v-card-title>
+      class="text-capitalize text-h5">{{ project.formattedName }}
+    </v-card-title>
     <div class="ml-3">
                       <span class="v-icon project-icon mx-1"
                             v-for="(icon, index) of project.projectIcons"
                             v-bind:key="index">
-                        <i :class="icon"></i></span>
+                        <i :class="icon"></i>
+                      </span>
     </div>
 
-    <v-card-subtitle class="text--secondary">Description</v-card-subtitle>
+    <v-card-subtitle class="text--secondary">{{ $Constants.DESCRIPTION }}</v-card-subtitle>
     <v-card-text style="height: 90px;"
                  class="pb-0 description overflow-hidden">
       <p class="text--primary">
-        {{project.description}}
+        {{ project.description }}
       </p>
     </v-card-text>
 
     <v-card-actions>
-      <v-btn
-        :href="project.html_url"
-        target="_blank"
-        icon
-        color="primary"
-        text
-        large>
-        <v-icon>mdi-file-code-outline</v-icon>
-      </v-btn>
 
-      <v-btn v-if="project.homepage"
-             :href="project.homepage"
-             target="_blank"
-             color="primary"
-             text
-             icon
-             large>
-        <v-icon>mdi-web</v-icon>
-      </v-btn>
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn
+            :href="project.html_url"
+            target="_blank"
+            icon
+            color="primary"
+            text
+            v-on="on"
+            large>
+            <v-icon>mdi-file-code-outline</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $Constants.VIEW_SOURCE }}</span>
+      </v-tooltip>
+
+      <v-tooltip bottom>
+        <template v-slot:activator="{ on }">
+          <v-btn v-if="project.homepage"
+                 :href="project.homepage"
+                 target="_blank"
+                 color="primary"
+                 text
+                 v-on="on"
+                 icon
+                 large>
+            <v-icon>mdi-web</v-icon>
+          </v-btn>
+        </template>
+        <span>{{ $Constants.GO_TO_APP }}</span>
+      </v-tooltip>
+
       <v-spacer></v-spacer>
       <v-btn
         color="primary"
         outlined
-        @click="project.show = !project.show"
-      >
-        See More
+        @click="project.show = !project.show">
+        {{ $Constants.SHOW_MORE }}
         <v-icon>mdi-chevron-down</v-icon>
       </v-btn>
     </v-card-actions>
@@ -62,50 +77,63 @@
         style="height: 100%;"
       >
         <v-card-title
-          class="text-capitalize pb-0">{{project.formattedName}}</v-card-title>
+          class="text-capitalize pb-0">{{ project.formattedName }}
+        </v-card-title>
         <div class="card__body flex-grow-1">
-          <v-card-subtitle class="text--secondary py-1">Description</v-card-subtitle>
-          <v-card-text  class="pb-0">
+          <v-card-subtitle class="text--secondary py-1">{{ $Constants.DESCRIPTION }}</v-card-subtitle>
+          <v-card-text class="pb-0">
             <p class="text--primary mb-1">
-              {{project.description}}
+              {{ project.description }}
             </p>
           </v-card-text>
-          <v-card-subtitle class="text--secondary py-1">Project Tags</v-card-subtitle>
+          <v-card-subtitle class="text--secondary py-1">
+            {{ $Constants.PROJECT_TAGS }}
+          </v-card-subtitle>
           <div class="ml-3 overflow-auto">
             <v-chip class="ma-1" color="secondary"
                     v-for="(tag,index) in project.topics"
-                    v-bind:key="index">{{tag}}</v-chip>
+                    v-bind:key="index">{{ tag }}
+            </v-chip>
           </div>
         </div>
 
         <v-card-actions class="pt-0 my-auto">
-          <v-btn
-            :href="project.html_url"
-            target="_blank"
-            icon
-            color="primary"
-            text
-            large
-          >
-            <v-icon>mdi-file-code-outline</v-icon>
-          </v-btn>
-
-          <v-btn v-if="project.homepage"
-                 :href="project.homepage"
-                 target="_blank"
-                 color="primary"
-                 text
-                 icon
-                 large>
-            <v-icon>mdi-web</v-icon>
-          </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                :href="project.html_url"
+                target="_blank"
+                icon
+                color="primary"
+                text
+                v-on="on"
+                large>
+                <v-icon>mdi-file-code-outline</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $Constants.VIEW_SOURCE }}</span>
+          </v-tooltip>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn v-if="project.homepage"
+                     :href="project.homepage"
+                     target="_blank"
+                     color="primary"
+                     text
+                     v-on="on"
+                     icon
+                     large>
+                <v-icon>mdi-web</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $Constants.GO_TO_APP }}</span>
+          </v-tooltip>
           <v-spacer></v-spacer>
           <v-btn
-           color="primary"
-           outlined
-            @click="project.show = !project.show"
-          >
-            See Less
+            color="primary"
+            outlined
+            @click="project.show = !project.show">
+            {{ $Constants.SHOW_LESS }}
             <v-icon>mdi-chevron-up</v-icon>
           </v-btn>
         </v-card-actions>
@@ -138,14 +166,14 @@ export default {
   overflow: hidden;
 }
 
-.img-hover-zoom  {
+.img-hover-zoom {
   .project-image {
     transition: transform .5s ease;
   }
 }
 
 .img-hover-zoom:hover {
-  .project-image{
+  .project-image {
     transform: scale(1.3);
   }
 }
