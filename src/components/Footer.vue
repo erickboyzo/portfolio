@@ -1,11 +1,12 @@
 <template>
   <v-footer
     absolute
+    elevation="8"
     app>
-    <v-container id="footer-container" class="py-5 fill-height">
+    <v-container id="footer-container" class="fill-height">
       <v-row>
         <v-col cols="12" class="d-flex justify-center pa-0">
-          <IconLinks></IconLinks>
+          <IconLinks :primary="!$vuetify.theme.dark"></IconLinks>
         </v-col>
         <v-col cols="12" class="d-flex justify-center pa-0">
           &copy; {{ currentYear }}{{ copyRight }}
@@ -29,8 +30,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.icon-link{
-  i{
+.icon-link {
+  i {
     font-size: 28px;
   }
 }
