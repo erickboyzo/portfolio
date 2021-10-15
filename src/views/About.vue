@@ -25,8 +25,9 @@
           <template v-slot:content>
             <v-row>
               <v-col class="d-flex flex-column justify-center pb-0" cols="12">
-                <v-img class="rounded-circle mx-auto" height="225" width="225" alt="Erick Boyzo"
-                       src="@/assets/images/me.jpg"></v-img>
+                <v-img position="top center"
+                       class="rounded-circle mx-auto" height="200" width="200" alt="Erick Boyzo"
+                       src="@/assets/images/me.jpeg"></v-img>
               </v-col>
               <v-col class="d-flex flex-column" cols="12" sm="6">
                 <div class="px-6">
@@ -47,7 +48,7 @@
                       to="contact"
                       color="primary"
                       outlined>
-                      <v-icon class="mr-2" small>mdi-message-draw</v-icon>
+                      <v-icon class="mr-2" small>mdi-message-text-outline</v-icon>
                       {{ $Constants.CONTACT_ME }}
                     </v-btn>
                   </div>
