@@ -98,7 +98,7 @@
                       <v-btn
                         large
                         color="primary"
-                        outlined
+                        rounded
                         @click="showLess =!showLess">
                         {{ showLess ? $Constants.SHOW_MORE: $Constants.SHOW_LESS }}
                         <v-icon>{{ showLess ? 'mdi-chevron-down' : 'mdi-chevron-up' }}</v-icon>
