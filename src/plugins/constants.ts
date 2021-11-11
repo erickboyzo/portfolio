@@ -26,7 +26,7 @@ const Constants = {
         + '\n </br> </br>'
         + 'As a hobby, I genuinely enjoy Full-Stack Development, Mobile Application Development, and Automation. My favorite part of software development involves seeing ideas come to life or providing solutions to existing problems.\n'
         + '\n </br> </br>'
-        + 'Want to collaborate on an idea? Want to provide feedback? Or just wanted to say hello? Don\'t be shy, please feel free to message me.',
+        + 'Want to collaborate on an idea? Want to provide feedback? Or just want to say hello? Don\'t be shy, please feel free to message me.',
       ABOUT_ICONS: [
         { icon: 'mdi-map-marker', label: 'Residence', value: 'Atlanta, GA, United States' },
         {

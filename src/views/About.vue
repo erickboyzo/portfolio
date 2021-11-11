@@ -39,7 +39,7 @@
                       class="mx-auto my-2"
                       to="projects"
                       color="primary"
-                      outlined>
+                      rounded>
                       <v-icon class="mr-2" small>mdi-file-code-outline</v-icon>
                       {{ $Constants.VIEW_PROJECTS }}
                     </v-btn>
@@ -47,7 +47,7 @@
                       class="mx-auto my-2"
                       to="contact"
                       color="primary"
-                      outlined>
+                      rounded>
                       <v-icon class="mr-2" small>mdi-message-text-outline</v-icon>
                       {{ $Constants.CONTACT_ME }}
                     </v-btn>
