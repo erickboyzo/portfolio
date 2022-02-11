@@ -56,7 +56,7 @@ const Constants = {
         { icon: 'devicon-ruby-plain colored', displayLabel: 'Ruby', value: ['ruby'], experience: 50 },
         { icon: 'devicon-sass-original colored', displayLabel: 'Sass', value: ['sass'], experience: 95 },
         { icon: 'devicon-typescript-plain colored', displayLabel: 'Typescript', value: ['typescript'], experience: 90 },
-        { icon: 'devicon-vuejs-plain-wordmark colored', displayLabel: 'Vue', value: ['vue', 'vuejs'], experience: 90 }],
+        { icon: 'devicon-vuejs-plain-wordmark colored', displayLabel: 'Vue', value: ['vue', 'vuejs'], experience: 85 }],
       PROFESSIONAL_SKILLS: [
         { icon: 'mdi-television-guide', label: 'UI Development', experience: 90 },
         { icon: 'mdi-monitor', label: 'Web Application Development', experience: 95 },
