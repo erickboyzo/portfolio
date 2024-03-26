@@ -1,0 +1,51 @@
+const siteMetaData = {
+  MESSAGE_SUCCESS: "Thank you for contacting me, I will respond back as soon as possible. In the meantime, feel free to browse my current projects.",
+  MESSAGE_DELIVERED: "<strong>Message Sent!</strong>",
+  CONTACT_ME: "Contact Me",
+  VIEW_PROJECTS: "View Projects",
+  PROJECTS: "Projects",
+  ABOUT_PERSONAL_DETAILS: "Personal Details",
+  DEV_EXPERIENCE_TITLE: "What I Do",
+  TECH_SKILLS: "Skills and Tools Experience",
+  SHOW_MORE: "Show More",
+  SHOW_LESS: "Show Less",
+  DESCRIPTION: "Description",
+  PROJECT_TAGS: "Project Tags",
+  VIEW_SOURCE: "View Source Code",
+  GO_TO_APP: "Go to app",
+  SEND_MESSAGE: "Send Message",
+  ABOUT_ME: "About Me",
+  GREETING: 'Hi <span class="emoji"> 👋🏼 </span>, </br>',
+  GREETING_INTRO: "I am<span> {}</span>, </br>\n",
+  TITLE: "<h2> {{userTitle}} </h2>",
+  ABOUT_CONTACT_TEXT: "Looking to team up on an idea? Or simply want to say hello? Don't hesitate to reach out. Feel free to drop me a message anytime!",
+  PROFESSIONAL_SKILLS: [
+    {
+      icon: "mdi-television-guide",
+      label: "UI Development",
+      text: "Focus on designing user interfaces that are both visually appealing and implement responsive and interactive user interfaces.",
+      experience: 90,
+    },
+    {
+      icon: "mdi-monitor",
+      label: "Web Application Development",
+      text: "Specialize in building robust web applications using frameworks like React, Angular, or Vue.js, alongside backend technologies such as Node.js or Spring.",
+      experience: 95,
+    },
+    {
+      icon: "mdi-tablet-cellphone",
+      label: "Mobile Application Development",
+      text: "Passionate about utilizing both native and cross-platform frameworks to develop applications that are both high-performing and user-friendly.",
+      experience: 80,
+    },
+    {
+      icon: "mdi-cogs",
+      label: "Automation",
+      text: "Strive to utilize automation technologies to enhance scripts and workflows that minimize manual intervention and decrease human intervention.",
+      experience: 70,
+    },
+  ],
+  DEFAULT_IMAGES: ["dev1.jpg", "dev2.jpg", "dev3.png", "dev4.jpg"],
+};
+
+export default siteMetaData;

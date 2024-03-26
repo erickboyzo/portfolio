@@ -1,15 +1,17 @@
-import Constants from '@/plugins/constants';
-import Vue from 'vue';
-import App from './App.vue';
-import './registerServiceWorker';
-import router from './router';
-import vuetify from './plugins/vuetify';
+import filters from "@/filters/filters";
+import vuetify from "@/plugins/vuetify";
 
-Vue.config.productionTip = false;
-Vue.use(Constants);
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 
-new Vue({
-  router,
-  vuetify,
-  render: (h) => h(App),
-}).$mount('#app');
+import App from "./App.vue";
+import router from "./router";
+
+const app = createApp(App);
+
+app.use(createPinia());
+app.use(router);
+app.use(vuetify);
+app.config.globalProperties.$filters = filters;
+
+app.mount("#app");

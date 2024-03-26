@@ -1,109 +1,97 @@
 <template>
-  <v-app-bar
-    app
-    flat
-    :elevation="flushHeader ? 0: 8"
-    v-bind:class="{ 'flush-header' : flushHeader }"
-    scroll-target="#content-container">
-    <v-container id="header-container" class="pa-0 d-flex align-center">
-      <v-app-bar-nav-icon class="hidden-sm-and-up mr-2"
-                          @click="drawer = true"></v-app-bar-nav-icon>
-      <v-avatar
-        class="mr-3 white--text"
-        color="primary"
-        size="42"
-      >{{ abv }}
-      </v-avatar>
-      <v-app-bar-title  class="dev-name text-h5">
-        <div>
-          <router-link to="/about" tag="span" style="cursor: pointer">
-            {{ appTitle }}
-          </router-link>
-        </div>
-      </v-app-bar-title>
+  <v-app-bar app
+             height="70"
+             density="comfortable"
+             scroll-behavior="elevate"
+             :elevation="flushHeader ? null : 12"
+             scroll-target="#content-container">
+    <v-container class="pa-0 d-flex align-center">
+      <v-app-bar-nav-icon variant="text" v-bind:icon="!drawer ? 'mdi-menu' : 'mdi-backburger'" v-if="mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <header-title :title="name"></header-title>
       <v-spacer class="hidden-xs-only"></v-spacer>
-      <v-toolbar-items class="hidden-xs-only button-nav">
-        <v-btn v-for="link in links"
-               v-bind:key="link.link"
-               color="primary"
-               :to="link.link"
-               text>
+      <v-toolbar-items class="hidden-sm-and-down button-nav">
+        <v-btn v-for="link in links" variant="text" v-bind:key="link.link" :to="link.link">
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
-
       <div class="ml-auto theme-toggle">
-       <span>
-  <v-tooltip v-if="!$vuetify.theme.dark" bottom>
-    <template v-slot:activator="{ on }">
-      <v-btn v-on="on" elevation="2" icon @click="toggleTheme">
-        <v-icon class="mr-1">mdi-theme-light-dark</v-icon>
-      </v-btn>
-    </template>
-    <span>Dark Mode On</span>
-  </v-tooltip>
-
-  <v-tooltip v-else bottom>
-    <template v-slot:activator="{ on }">
-      <v-btn v-on="on" icon @click="toggleTheme">
-        <v-icon>mdi-theme-light-dark</v-icon>
-      </v-btn>
-    </template>
-    <span>Dark Mode Off</span>
-  </v-tooltip>
-</span>
+        <span>
+          <ThemeToggle />
+        </span>
       </div>
-      <v-navigation-drawer
-        v-model="drawer"
-        temporary
-        app
-        height="100vh"
-        hide-overlay>
-        <v-list
-          nav
-          dense>
-          <v-list-item-group
-            v-model="group">
-            <v-list-item v-for="link in links"
-                         v-bind:key="link.link"
-                         :to="link.link">
-              {{ link.title }}
-            </v-list-item>
-          </v-list-item-group>
-        </v-list>
-      </v-navigation-drawer>
     </v-container>
   </v-app-bar>
+  <v-navigation-drawer v-model="drawer" app v-if="mobile" height="100vh" width="500">
+    <v-list nav dense>
+      <v-list-group class="app-links" v-model="group">
+        <v-list-item v-for="link in links" v-bind:key="link.link" :to="link.link">
+          {{ link.title }}
+        </v-list-item>
+      </v-list-group>
+    </v-list>
+  </v-navigation-drawer>
+  <v-main>
+    <v-container id="content-container" class="my-5">
+      <slot></slot>
+    </v-container>
+  </v-main>
 </template>
 
-<script>
-export default {
-  name: 'Header',
-  props: ['flushHeader'],
-  data: () => ({
-    links: [
-      { title: 'About Me', link: 'about' },
-      { title: 'Projects', link: 'projects' },
-      { title: 'Contact Me', link: 'contact' },
-    ],
-    appTitle: 'Erick Boyzo',
-    abv: 'EB',
-    drawer: false,
-    group: null,
-  }),
-  methods: {
-    toggleTheme() {
-      this.$vuetify.theme.dark = !this.$vuetify.theme.dark;
-    },
+<script setup lang="ts">
+import HeaderTitle from "@/components/HeaderTitle.vue";
+import { ref, watch } from "vue";
+import { useDisplay, useTheme } from "vuetify/dist/vuetify";
+import ThemeToggle from "./ThemeToggle.vue";
+import { resumeStore } from "@/stores/store";
+
+const { mobile } = useDisplay();
+const props = defineProps({
+  flushHeader: Boolean,
+});
+const links = [
+  { title: "About Me", link: "about" },
+  { title: "Projects", link: "projects" },
+  { title: "Contact Me", link: "contact" },
+];
+const drawer = ref(false);
+let group = null;
+const name = resumeStore().resume.basics.name;
+const myPropValue = ref(props.flushHeader);
+
+watch(
+  () => props.flushHeader,
+  (newValue, oldValue) => {
+    // React to prop changes
+    console.log("Old changed:", oldValue);
+    console.log("Prop changed:", newValue);
+    myPropValue.value = newValue; // Update the value in the ref if needed
   },
-};
+);
 </script>
 
 <style lang="scss" scoped>
+.v-app-bar-title__content {
+  width: 100% !important;
+}
+
+.v-app-bar {
+  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+
+  .v-toolbar__content {
+    padding-bottom: 0 !important;
+  }
+}
+
+.v-toolbar__content {
+  padding-bottom: 0 !important;
+  padding-top: 0 !important;
+}
+
 .theme-toggle {
   span {
     margin-bottom: 1px;
   }
+
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -113,14 +101,36 @@ export default {
   min-height: 64px;
   height: 64px !important;
   margin-right: 10px;
+
+  .v-btn--active {
+    color: rgb(var(--v-theme-text));
+    border-bottom: 4px solid rgb(var(--v-theme-primary));
+
+    &.theme--dark {
+      color: #ffffff;
+    }
+  }
+}
+
+.v-navigation-drawer__content {
+  .v-icon {
+    font-size: 2em;
+  }
 }
 
 .flush-header {
-  &.theme--light.v-app-bar.v-toolbar.v-sheet{
-    background-color: transparent !important;
-  }
-  &.theme--dark.v-app-bar.v-toolbar.v-sheet{
-    background-color: transparent !important;
+  //&.theme--light.v-app-bar.v-toolbar.v-sheet {
+  //  background-color: transparent !important;
+  //}
+  //
+  //&.theme--dark.v-app-bar.v-toolbar.v-sheet {
+  //  background-color: transparent !important;
+  //}
+}
+
+.app-links {
+  .v-list-item--active {
+    border-left: 7px solid rgb(var(--v-theme-primary));
   }
 }
 </style>

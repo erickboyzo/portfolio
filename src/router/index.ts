@@ -1,42 +1,37 @@
-import Vue from 'vue';
-import VueRouter, { RouteConfig } from 'vue-router';
+import AboutView from "@/views/AboutView.vue";
+import { createRouter, createWebHistory } from "vue-router";
 
-Vue.use(VueRouter);
-
-const routes: Array<RouteConfig> = [
+const routes = [
   {
-    path: '/',
-    name: 'Home',
-    meta: { index: 0 },
-    redirect: { name: 'About' },
+    path: "/",
+    name: "home",
+    redirect: "/about",
   },
   {
-    path: '/about',
-    name: 'About',
-    meta: { index: 0 },
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue'),
+    path: "/about",
+    name: "about",
+    component: AboutView,
   },
   {
-    path: '/projects',
-    name: 'Projects',
-    meta: { index: 1 },
-    component: () => import(/* webpackChunkName: "about" */ '../views/Projects.vue'),
+    path: "/projects",
+    name: "project",
+    component: () => import("@/views/ProjectsView.vue"),
   },
   {
-    path: '/contact',
-    name: 'ContactMe',
-    meta: { index: 2 },
-    component: () => import(/* webpackChunkName: "about" */ '../views/ContactMe.vue'),
+    path: "/contact",
+    name: "contact",
+    component: () => import("@/views/ContactMeView.vue"),
   },
 ];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHistory(import.meta.env.BASE_URL),
   routes,
-  scrollBehavior(to, from, savedPosition) {
-    return savedPosition || { x: 0, y: 0 };
-  },
+  scrollBehavior() {
+    return new Promise((resolve) => {
+      resolve({ left: 0, top: 0 })
+    })
+  }
 });
 
 export default router;

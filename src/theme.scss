@@ -1,0 +1,14 @@
+$body-font-family: "Inter";
+
+.v-application {
+  background-color: rgb(var(--v-background-base)) !important;
+  font-family: $body-font-family, sans-serif !important;
+  .v-card, .v-sheet {
+    background-color: rgb(var(--v-surface-base)) !important;
+    color: rgb(var(--v-text-base));
+  }
+
+  [class*='text-'] {
+    font-family: $body-font-family, sans-serif !important;
+  }
+}
