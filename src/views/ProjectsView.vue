@@ -1,7 +1,7 @@
 <template>
   <div class="project">
     <v-container class="pa-0">
-      <h1 class="font-weight-light primary-- text-h3 my-5">{{ resumeMetaData.PROJECTS }}</h1>
+      <h1 class="font-weight-light my-5 text-h2">{{ resumeMetaData.PROJECTS }}</h1>
 
       <template v-if="!projectsData || loading">
         <v-row>
@@ -19,7 +19,7 @@
       </template>
     </v-container>
     <v-container class="px-0 py-10 my-5" v-if="!loading">
-      <h1 class="font-weight-light text-h3 my-5">{{ resumeMetaData.TECH_SKILLS }}</h1>
+      <h1 class="font-weight-light my-5 text-h2">{{ resumeMetaData.TECH_SKILLS }}</h1>
       <v-row>
         <v-col sm="6" md="3" v-for="(skill, index) in skillsData" v-bind:key="index">
           <skill-card :skill="skill"></skill-card>

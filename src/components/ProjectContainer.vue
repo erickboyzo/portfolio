@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="project in sliceItems()" v-bind:key="project.name" cols="12" md="12">
-      <v-card variant="tonal" elevation="2" class="my-1 full-card fade-in-right">
+      <v-card  class="my-1 full-card fade-in-right">
         <v-card-text class="pb-0 description overflow-hidden">
           <v-row>
             <v-col class="d-flex flex-column" cols="12" md="6">

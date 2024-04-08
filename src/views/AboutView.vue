@@ -7,9 +7,9 @@
         <v-col class="px-0" cols="12" sm="12">
           <div class="title-headers">
             <span class="typewriter">
-              <h2 v-if="!typingDone" class="font-weight-regular">{{resumeMetaData.TITLE}}</h2>
+              <h2 v-if="!typingDone" class="font-weight-regular">{{ resumeMetaData.TITLE }}</h2>
             </span>
-            <h1 class="font-weight-regular role-title" v-if="typingDone">{{resume.basics.label}}.</h1>
+            <h1 class="font-weight-regular role-title" v-if="typingDone">{{ resume.basics.label }}.</h1>
           </div>
         </v-col>
         <v-col class="hidden-sm-and-up" cols="12" sm="5">
@@ -24,13 +24,13 @@
         <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image"></v-img>
       </v-col>
       <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
-        <v-btn size="x-large" color="primary" @click="$router.push('contact')" variant="tonal">{{resumeMetaData.CONTACT_ME}}</v-btn>
+        <v-btn size="x-large" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
         <IconLinks class="ml-md-3"></IconLinks>
       </v-col>
       <v-col class="mt-10" cols="12">
-        <h3 class="font-weight-light primary-- text-h3 mt-5 mb-2">
+        <h1 class="font-weight-light mt-5 mb-2 text-h2">
           {{ resumeMetaData.DEV_EXPERIENCE_TITLE }}
-        </h3>
+        </h1>
       </v-col>
     </v-row>
     <v-row no-gutters>
@@ -56,23 +56,23 @@
 </template>
 
 <script lang="ts">
-import { resumeStore } from "@/stores/store";
-import { defineComponent } from "vue";
-import IconLinks from "../components/IconLinks.vue";
+import { resumeStore } from '@/stores/store';
+import { defineComponent } from 'vue';
+import IconLinks from '../components/IconLinks.vue';
 
 export default defineComponent({
-  name: "AboutView",
-  components: { IconLinks },
+  name: 'AboutView',
+  components: {IconLinks},
   data: () => ({
     resume: resumeStore().resume,
     resumeMetaData: resumeStore().siteMetaData,
-    typingDone:false,
+    typingDone: false,
   }),
-  methods:{
-    removeCode(){
+  methods: {
+    removeCode() {
       setTimeout(() => {
-      this.typingDone = true;
-      }, 4000)
+        this.typingDone = true;
+      }, 4000);
     }
   },
   mounted() {
@@ -122,7 +122,7 @@ export default defineComponent({
     }
 
     .role-title {
-      font-size: 31px;
+      font-size: 36px;
     }
   }
 
@@ -137,9 +137,10 @@ export default defineComponent({
       }
     }
 
-    .contact-me-container{
+    .contact-me-container {
       flex-direction: column-reverse;
-      .v-btn{
+
+      .v-btn {
         margin-top: 15px;
       }
     }
@@ -158,9 +159,8 @@ export default defineComponent({
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.09em;
-    animation:
-      typing 3.0s steps(30, end),
-      blink-caret 0.5s step-end infinite;
+    animation: typing 3.3s steps(30, end),
+    blink-caret 0.5s step-end infinite;
   }
 
   .info-icons {

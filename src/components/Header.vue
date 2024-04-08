@@ -10,13 +10,13 @@
       <header-title :title="name"></header-title>
       <v-spacer class="hidden-xs-only"></v-spacer>
       <v-toolbar-items class="hidden-sm-and-down button-nav">
-        <v-btn v-for="link in links" variant="text" v-bind:key="link.link" :to="link.link">
+        <v-btn class="header-btn" v-for="link in links" variant="text" v-bind:key="link.link" :to="link.link">
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
       <div class="ml-auto theme-toggle">
         <span>
-          <ThemeToggle />
+          <ThemeToggle/>
         </span>
       </div>
     </v-container>
@@ -38,20 +38,29 @@
 </template>
 
 <script setup lang="ts">
-import HeaderTitle from "@/components/HeaderTitle.vue";
-import { ref, watch } from "vue";
-import { useDisplay, useTheme } from "vuetify/dist/vuetify";
-import ThemeToggle from "./ThemeToggle.vue";
-import { resumeStore } from "@/stores/store";
+import HeaderTitle from '@/components/HeaderTitle.vue';
+import { ref, watch } from 'vue';
+import { useDisplay, useTheme } from 'vuetify/dist/vuetify';
+import ThemeToggle from './ThemeToggle.vue';
+import { resumeStore } from '@/stores/store';
 
-const { mobile } = useDisplay();
+const {mobile} = useDisplay();
 const props = defineProps({
   flushHeader: Boolean,
 });
 const links = [
-  { title: "About Me", link: "about" },
-  { title: "Projects", link: "projects" },
-  { title: "Contact Me", link: "contact" },
+  {
+    title: 'About Me',
+    link: 'about'
+  },
+  {
+    title: 'Projects',
+    link: 'projects'
+  },
+  {
+    title: 'Contact Me',
+    link: 'contact'
+  },
 ];
 const drawer = ref(false);
 let group = null;
@@ -62,8 +71,8 @@ watch(
   () => props.flushHeader,
   (newValue, oldValue) => {
     // React to prop changes
-    console.log("Old changed:", oldValue);
-    console.log("Prop changed:", newValue);
+    console.log('Old changed:', oldValue);
+    console.log('Prop changed:', newValue);
     myPropValue.value = newValue; // Update the value in the ref if needed
   },
 );
@@ -98,17 +107,12 @@ watch(
 }
 
 .button-nav {
-  min-height: 64px;
-  height: 64px !important;
   margin-right: 10px;
 
   .v-btn--active {
     color: rgb(var(--v-theme-text));
-    border-bottom: 4px solid rgb(var(--v-theme-primary));
-
-    &.theme--dark {
-      color: #ffffff;
-    }
+    border-bottom: 6px solid rgb(var(--v-theme-primary));
+    padding-top: 6px;
   }
 }
 
@@ -118,14 +122,9 @@ watch(
   }
 }
 
-.flush-header {
-  //&.theme--light.v-app-bar.v-toolbar.v-sheet {
-  //  background-color: transparent !important;
-  //}
-  //
-  //&.theme--dark.v-app-bar.v-toolbar.v-sheet {
-  //  background-color: transparent !important;
-  //}
+.header-btn {
+  border-radius: 0 !important;
+
 }
 
 .app-links {

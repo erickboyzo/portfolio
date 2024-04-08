@@ -4,7 +4,7 @@
       <v-card>
         <v-card-text>
           <div class="d-flex justify-end">
-            <v-btn variant="flat" icon @click="sent = false">
+            <v-btn variant="text" icon @click="sent = false">
               <v-icon color="primary" size="xxx-large">mdi-window-close</v-icon>
             </v-btn>
           </div>
@@ -20,25 +20,29 @@
           </div>
 
           <div class="d-flex justify-center my-5">
-            <v-btn color="primary" size="x-large" variant="tonal">Go to Projects</v-btn>
+            <v-btn color="primary"
+                   size="x-large"
+                   variant="tonal"
+                   @click="$router.push('projects')">{{ resumeMetaData.VIEW_PROJECTS }}
+            </v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-col>
     <v-col v-else cols="12">
-      <h1 class="font-weight-light primary-- text-h3 mt-5 mb-2">{{ resumeMetaData.CONTACT_ME }}</h1>
+      <h1 class="font-weight-light mt-5 mb-2 text-h2">{{ resumeMetaData.CONTACT_ME }}</h1>
 
       <v-card class="my-2" :loading="loading">
         <v-card-text>
           <form method="post" @submit.prevent="handleSubmit">
-            <input type="hidden" name="form-name" value="contact" />
-            <v-text-field name="name" v-model="form.name" label="Full Name" prepend-inner-icon="mdi-account" variant="outlined" color="primary" clearable required />
-            <v-text-field name="email" v-model="form.email" label="Email" prepend-inner-icon="mdi-at" type="email" variant="outlined" color="primary" clearable required />
-            <v-text-field name="subject" v-model="form.subject" label="Subject" prepend-inner-icon="mdi-email-edit" variant="outlined" color="primary" clearable required />
-            <v-textarea name="message" v-model="form.message" label="Message" prepend-inner-icon="mdi-message-text" variant="outlined" color="primary" clearable required />
+            <input type="hidden" name="form-name" value="contact"/>
+            <v-text-field name="name" v-model="form.name" label="Full Name" prepend-inner-icon="mdi-account" variant="outlined" color="primary" clearable required/>
+            <v-text-field name="email" v-model="form.email" label="Email" prepend-inner-icon="mdi-at" type="email" variant="outlined" color="primary" clearable required/>
+            <v-text-field name="subject" v-model="form.subject" label="Subject" prepend-inner-icon="mdi-email-edit" variant="outlined" color="primary" clearable required/>
+            <v-textarea name="message" v-model="form.message" label="Message" prepend-inner-icon="mdi-message-text" variant="outlined" color="primary" clearable required/>
             <div class="d-flex justify-end">
               <v-btn x-large type="submit" variant="tonal" size="x-large" color="primary"
-                >{{ resumeMetaData.SEND_MESSAGE }}
+              >{{ resumeMetaData.SEND_MESSAGE }}
                 <v-icon class="ml-3">mdi-send</v-icon>
               </v-btn>
             </div>
@@ -50,18 +54,18 @@
 </template>
 
 <script lang="ts">
-import { resumeStore } from "@/stores/store";
-import { defineComponent } from "vue";
+import { resumeStore } from '@/stores/store';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "ContactMeView",
+  name: 'ContactMeView',
   data() {
     return {
       form: {
-        name: "",
-        email: "",
-        subject: "",
-        message: "",
+        name: '',
+        email: '',
+        subject: '',
+        message: '',
       },
       sent: false,
       loading: false,
@@ -70,23 +74,23 @@ export default defineComponent({
   },
   methods: {
     resetForm(): void {
-      this.form["name"] = "";
-      this.form["email"] = "";
-      this.form["subject"] = "";
-      this.form["message"] = "";
+      this.form['name'] = '';
+      this.form['email'] = '';
+      this.form['subject'] = '';
+      this.form['message'] = '';
     },
     encode(data: { [key: string]: string }): string {
       return Object.keys(data)
         .map((key) => `${encodeURIComponent(key)}=${encodeURIComponent(data[key])}`)
-        .join("&");
+        .join('&');
     },
     handleSubmit(): void {
       this.loading = true;
-      fetch("/", {
-        method: "POST",
-        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      fetch('/', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
         body: this.encode({
-          "form-name": "contact",
+          'form-name': 'contact',
           ...this.form,
         }),
       })
@@ -95,7 +99,7 @@ export default defineComponent({
           this.resetForm();
         })
         .catch(() => {
-          console.log("Error!");
+          console.log('Error!');
         })
         .finally(() => {
           this.loading = false;
@@ -105,7 +109,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .email-sent {
   font-size: 8em;
 }
