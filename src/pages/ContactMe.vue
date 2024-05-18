@@ -29,11 +29,14 @@
         </v-card-text>
       </v-card>
     </v-col>
-    <v-col v-else cols="12">
-      <h1 class="font-weight-light mt-5 mb-2 text-h2">{{ resumeMetaData.CONTACT_ME }}</h1>
-
-      <v-card class="my-2" :loading="loading">
-        <v-card-text>
+    <v-col cols="12" v-else>
+      <h1 class="font-weight-light mt-5 mb-5 text-h2">{{ resumeMetaData.CONTACT_ME }}</h1>
+      <v-row>
+        <v-col md="5" cols="12">
+          <p class="mb-5" v-html="resumeMetaData.CONTACT_ME_MESSAGE"></p>
+          <IconLinks class="d-flex my-2"></IconLinks>
+        </v-col>
+        <v-col md="7" cols="12">
           <form method="post" @submit.prevent="handleSubmit">
             <input type="hidden" name="form-name" value="contact"/>
             <v-text-field name="name" v-model="form.name" label="Full Name" prepend-inner-icon="mdi-account" variant="outlined" color="primary" clearable required/>
@@ -47,18 +50,20 @@
               </v-btn>
             </div>
           </form>
-        </v-card-text>
-      </v-card>
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>
 
 <script lang="ts">
+import IconLinks from '@/components/IconLinks.vue';
 import { resumeStore } from '@/stores/store';
 import { defineComponent } from 'vue';
 
 export default defineComponent({
   name: 'ContactMeView',
+  components: {IconLinks},
   data() {
     return {
       form: {
@@ -69,7 +74,7 @@ export default defineComponent({
       },
       sent: false,
       loading: false,
-      resumeMetaData: resumeStore().siteMetaData,
+      resumeMetaData: resumeStore()['siteMetaData'],
     };
   },
   methods: {
@@ -112,5 +117,14 @@ export default defineComponent({
 <style lang="scss">
 .email-sent {
   font-size: 8em;
+}
+.icon-link {
+  margin-right: 10px;
+  height: 60px !important;
+  width: 60px !important;
+
+  i {
+    font-size: 40px !important;
+  }
 }
 </style>

@@ -6,7 +6,7 @@
           <IconLinks :primary="theme.global.current.value.dark"></IconLinks>
         </v-col>
         <v-col cols="12" class="d-flex justify-center py-1 my-1"> &copy; {{ currentYear }} {{ copyRight }} </v-col>
-        <v-col cols="12" class="d-flex justify-center py-1 my-1"> This portfolio was build using the following technologies. </v-col>
+<!--        <v-col cols="12" class="d-flex justify-center py-1 my-1"> This portfolio was build using the following technologies. </v-col>-->
       </v-row>
     </v-container>
   </v-footer>
@@ -23,10 +23,6 @@ const theme = useTheme();
 </script>
 
 <style lang="scss" scoped>
-.v-footer {
-  border-top: thin solid rgba(0, 0, 0, 0.12);
-}
-
 .icon-link {
   i {
     font-size: 28px;

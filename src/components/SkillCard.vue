@@ -2,7 +2,7 @@
   <v-card elevation="1" class="ma-2">
     <div class="d-flex flex-column justify-center text-center pa-3">
       <div class="d-flex flex-column justify-center pa-2">
-        <div class="v-icon skill-icon w-100 text-center ma-2">
+        <div class="v-icon skill-icon w-100 text-center my-2">
           <i :class="$filters.deviconIcon(skill.name)"></i>
         </div>
         <span class="text-center text-subtitle-2">{{ skill.name }}</span>

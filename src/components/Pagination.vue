@@ -18,10 +18,10 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue';
 
 export default defineComponent({
-  name: "Pagination",
+  name: 'Pagination',
   props: {
     currentPage: {
       type: Number,
@@ -32,7 +32,7 @@ export default defineComponent({
       default: 0,
     },
   },
-  emits: ["pageChange"],
+  emits: ['pageChange'],
   methods: {
     changePage(index: number): void {
       this.emitPageValue(index);
@@ -47,7 +47,7 @@ export default defineComponent({
       this.emitPageValue(page);
     },
     emitPageValue(value: number) {
-      this.$emit("pageChange", value);
+      this.$emit('pageChange', value);
     },
   },
 });

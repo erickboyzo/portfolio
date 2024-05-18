@@ -41,7 +41,6 @@ let isAtTopPage = shallowRef(false);
 
 function handleScroll() {
   isAtTopPage.value = !window.pageYOffset;
-  console.log(isAtTopPage);
 }
 
 onMounted(() => {
@@ -59,19 +58,13 @@ function fetchProfile() {
   axios
     .get(`https://gitconnected.com/v1/portfolio/${store.gitConnectedProfileKey}`)
     .then((response) => {
-      console.log(response);
       store.$patch({
         resumeData: response.data,
       });
-      console.log(loading);
     })
     .catch((error) => {
-
-      console.log(error);
-      console.log(loading);
     })
     .finally(() => {
-      console.log('finally');
       loading.value = false;
     });
 }

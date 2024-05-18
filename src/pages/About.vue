@@ -24,8 +24,8 @@
         <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image"></v-img>
       </v-col>
       <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
-        <v-btn size="x-large" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
-        <IconLinks class="ml-md-3"></IconLinks>
+        <v-btn size="x-large" height="auto" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
+        <IconLinks class="ml-md-3 d-flex justify-center"></IconLinks>
       </v-col>
       <v-col class="mt-10" cols="12">
         <h1 class="font-weight-light mt-5 mb-2 text-h2">
