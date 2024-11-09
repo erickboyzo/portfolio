@@ -1,10 +1,10 @@
 <template>
   <v-app id="portfolio">
     <template v-if="!loading">
-      <Header :flush-header="isAtTopPage">
-        <RouterView/>
+      <Header :flush-header="isAtTheTopOfPage">
+        <RouterView />
       </Header>
-      <Footer/>
+      <Footer />
     </template>
     <v-dialog v-if="loading" max-width="320" v-model="loading" persistent>
       <v-list class="py-2" color="primary" elevation="12" rounded="lg">
@@ -25,32 +25,32 @@
 </template>
 
 <script setup lang="ts">
-import { resumeStore } from '@/stores/store';
-import axios from 'axios';
-import { onBeforeMount, onMounted, onUnmounted, shallowRef, watch } from 'vue';
-import { useTheme } from 'vuetify/dist/vuetify';
-import Header from './components/Header.vue';
-import Footer from './components/Footer.vue';
-import debounce from 'lodash/debounce';
+import { resumeStore } from "@/stores/store";
+import axios from "axios";
+import { onBeforeMount, onMounted, onUnmounted, shallowRef, watch } from "vue";
+import { useTheme } from "vuetify/dist/vuetify";
+import Header from "./components/Header.vue";
+import Footer from "./components/Footer.vue";
+import debounce from "lodash/debounce";
 
 const theme = useTheme();
 const store = resumeStore();
-let loading = shallowRef(true);
+const loading = shallowRef(true);
 let handleDebouncedScroll;
-let isAtTopPage = shallowRef(false);
+const isAtTheTopOfPage = shallowRef(true);
 
 function handleScroll() {
-  isAtTopPage.value = !window.pageYOffset;
+  isAtTheTopOfPage.value = !window.pageYOffset;
 }
 
 onMounted(() => {
-  theme.global.name.value = localStorage.getItem('darkTheme') === 'true' ? 'dark' : 'light';
+  theme.global.name.value = localStorage.getItem("darkTheme") === "true" ? "dark" : "light";
   handleDebouncedScroll = debounce(handleScroll, 100);
-  window.addEventListener('scroll', handleScroll);
+  window.addEventListener("scroll", handleScroll);
 });
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleDebouncedScroll);
+  window.removeEventListener("scroll", handleDebouncedScroll);
 });
 
 function fetchProfile() {
@@ -62,8 +62,7 @@ function fetchProfile() {
         resumeData: response.data,
       });
     })
-    .catch((error) => {
-    })
+    .catch((error) => {})
     .finally(() => {
       loading.value = false;
     });
@@ -109,5 +108,4 @@ html {
 p {
   color: rgb(var(--v-text-base));
 }
-
 </style>

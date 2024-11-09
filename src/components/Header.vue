@@ -1,10 +1,5 @@
 <template>
-  <v-app-bar app
-             height="70"
-             density="comfortable"
-             scroll-behavior="elevate"
-             :elevation="flushHeader ? null : 12"
-             scroll-target="#content-container">
+  <v-app-bar app height="70" density="comfortable" scroll-behavior="elevate" :elevation="flushHeader ? null : 12" scroll-target="#content-container">
     <v-container class="pa-0 d-flex align-center">
       <v-app-bar-nav-icon variant="text" v-bind:icon="!drawer ? 'mdi-menu' : 'mdi-backburger'" v-if="mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <header-title :title="name"></header-title>
@@ -16,7 +11,7 @@
       </v-toolbar-items>
       <div class="ml-auto theme-toggle">
         <span>
-          <ThemeToggle/>
+          <ThemeToggle />
         </span>
       </div>
     </v-container>
@@ -38,41 +33,38 @@
 </template>
 
 <script setup lang="ts">
-import HeaderTitle from '@/components/HeaderTitle.vue';
-import { ref, watch } from 'vue';
-import { useDisplay, useTheme } from 'vuetify/dist/vuetify';
-import ThemeToggle from './ThemeToggle.vue';
-import { resumeStore } from '@/stores/store';
+import HeaderTitle from "@/components/HeaderTitle.vue";
+import { ref, watch } from "vue";
+import { useDisplay } from "vuetify/dist/vuetify";
+import ThemeToggle from "./ThemeToggle.vue";
+import { resumeStore } from "@/stores/store";
 
-const {mobile} = useDisplay();
+const { mobile } = useDisplay();
 const props = defineProps({
   flushHeader: Boolean,
 });
 const links = [
   {
-    title: 'About Me',
-    link: 'about'
+    title: "About Me",
+    link: "about",
   },
   {
-    title: 'Projects',
-    link: 'projects'
+    title: "Projects",
+    link: "projects",
   },
   {
-    title: 'Contact Me',
-    link: 'contact'
+    title: "Contact Me",
+    link: "contact",
   },
 ];
 const drawer = ref(false);
-let group = null;
+const group = null;
 const name = resumeStore().resume.basics.name;
 const myPropValue = ref(props.flushHeader);
 
 watch(
   () => props.flushHeader,
   (newValue, oldValue) => {
-    // React to prop changes
-    console.log('Old changed:', oldValue);
-    console.log('Prop changed:', newValue);
     myPropValue.value = newValue; // Update the value in the ref if needed
   },
 );
@@ -83,9 +75,14 @@ watch(
   width: 100% !important;
 }
 
-.v-app-bar {
-  border-bottom: thin solid rgba(0, 0, 0, 0.12);
+//.v-app-bar.v-toolbar {
+//
+//}
 
+.v-app-bar {
+  background-color: rgb(var(--v-theme-background));
+  //border-bottom: 0.2px solid rgb(var(--v-theme-outline));
+  //
   .v-toolbar__content {
     padding-bottom: 0 !important;
   }
@@ -124,7 +121,6 @@ watch(
 
 .header-btn {
   border-radius: 0 !important;
-
 }
 
 .app-links {

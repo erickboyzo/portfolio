@@ -1,5 +1,5 @@
 <template>
-  <div class="about">
+  <div class="about mt-11">
     <v-row no-gutters class="px-2">
       <v-col cols="12" sm="7">
         <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.GREETING"></h1>
@@ -24,18 +24,19 @@
         <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image"></v-img>
       </v-col>
       <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
-        <v-btn size="x-large" height="auto" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
+        <v-btn size="x-large" color="primary" @click="$router.push('projects')" variant="tonal">{{ resumeMetaData.VIEW_PROJECTS }}</v-btn>
+        <v-btn class="mx-2" size="x-large" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
         <IconLinks class="ml-md-3 d-flex justify-center"></IconLinks>
       </v-col>
       <v-col class="mt-10" cols="12">
-        <h1 class="font-weight-light mt-5 mb-2 text-h2">
+        <h1 class="font-weight-light mt-5 mb-2 text-h3">
           {{ resumeMetaData.DEV_EXPERIENCE_TITLE }}
         </h1>
       </v-col>
     </v-row>
     <v-row no-gutters>
       <v-col cols="12" sm="6" class="my-3" v-for="(skill, index) in resumeMetaData.PROFESSIONAL_SKILLS" v-bind:key="index">
-        <v-card outlined elevation="1" class="ma-2 fill-height">
+        <v-card variant="tonal" class="ma-2 fill-height">
           <div class="d-flex flex-column justify-center pa-3">
             <div class="d-flex flex-column pa-2">
               <div class="text-center">
@@ -56,13 +57,13 @@
 </template>
 
 <script lang="ts">
-import { resumeStore } from '@/stores/store';
-import { defineComponent } from 'vue';
-import IconLinks from '../components/IconLinks.vue';
+import { resumeStore } from "@/stores/store";
+import { defineComponent } from "vue";
+import IconLinks from "../components/IconLinks.vue";
 
 export default defineComponent({
-  name: 'AboutView',
-  components: {IconLinks},
+  name: "AboutView",
+  components: { IconLinks },
   data: () => ({
     resume: resumeStore().resume,
     resumeMetaData: resumeStore().siteMetaData,
@@ -73,20 +74,17 @@ export default defineComponent({
       setTimeout(() => {
         this.typingDone = true;
       }, 4000);
-    }
+    },
   },
   mounted() {
     this.removeCode();
-  }
+  },
 });
 </script>
 <style lang="scss">
 @use "node_modules/vuetify/settings";
 
 .about {
-  padding-top: 50px;
-  padding-bottom: 50px;
-
   h1 {
     font-size: 50px;
   }
@@ -159,8 +157,9 @@ export default defineComponent({
     white-space: nowrap;
     margin: 0 auto;
     letter-spacing: 0.09em;
-    animation: typing 3.3s steps(30, end),
-    blink-caret 0.5s step-end infinite;
+    animation:
+      typing 3.3s steps(30, end),
+      blink-caret 0.5s step-end infinite;
   }
 
   .info-icons {

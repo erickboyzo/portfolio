@@ -1,7 +1,7 @@
 <template>
   <v-row>
     <v-col v-for="project in sliceItems()" v-bind:key="project.name" cols="12" md="12">
-      <v-card  class="my-1 full-card fade-in-right">
+      <v-card variant="tonal" class="my-1 full-card fade-in-right">
         <v-card-text class="pb-0 description overflow-hidden">
           <v-row>
             <v-col class="d-flex flex-column" cols="12" md="6">
@@ -43,8 +43,8 @@
 
             <v-col cols="12" md="6">
               <div class="img-hover-zoom">
-                <v-img v-if="project.image" height="250" class="white--text align-end project-image rounded mb-3" :src="project.image"> </v-img>
-                <v-img v-else height="250" class="white--text align-end project-image rounded mb-3" :src="project.dynamicImage"> </v-img>
+                <v-img v-if="project.image" height="250" class="white--text align-end project-image rounded mb-3" :src="project.image"></v-img>
+                <v-img v-else height="250" class="white--text align-end project-image rounded mb-3" :src="project.dynamicImage"></v-img>
               </div>
             </v-col>
           </v-row>

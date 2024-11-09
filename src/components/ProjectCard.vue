@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="12" class="my-5">
+  <v-card variant="tonal" class="my-5">
     <div class="img-hover-zoom">
       <v-img v-if="project.image" class="white--text align-end project-image" height="200px" v-bind:src="project.image"> </v-img>
 

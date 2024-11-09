@@ -1,5 +1,5 @@
 <template>
-  <v-card elevation="1" class="ma-2">
+  <v-card variant="tonal" class="ma-2">
     <div class="d-flex flex-column justify-center text-center pa-3">
       <div class="d-flex flex-column justify-center pa-2">
         <div class="v-icon skill-icon w-100 text-center my-2">
