@@ -17,7 +17,7 @@ const siteMetaData = {
   ABOUT_ME: "About Me",
   GREETING: 'Hi <span class="emoji"> 👋🏼 </span>, </br>',
   GREETING_INTRO: "I am<span> {}</span>, </br>\n",
-  TITLE: "<h1> {{userTitle}} </h1>",
+  TITLE: "<h2> {{userTitle}} </h2>",
   CONTACT_ME_MESSAGE: "If you have any questions, comments, or simply want to say hello, don't hesitate to get in touch. You can reach out via my social media links below or send me a message directly.",
   ABOUT_CONTACT_TEXT: "Looking to team up on an idea? Or simply want to say hello? Don't hesitate to reach out. Feel free to drop me a message anytime!",
   PROFESSIONAL_SKILLS: [

@@ -11,16 +11,19 @@ const routes = [
     path: "/about",
     name: "about",
     component: AboutView,
+    meta: { title: 'About Page' }
   },
   {
     path: "/projects",
     name: "project",
     component: () => import("@/pages/Projects.vue"),
+    meta: { title: 'Projects Page' }
   },
   {
     path: "/contact",
     name: "contact",
     component: () => import("@/pages/ContactMe.vue"),
+    meta: { title: 'Contact Page' }
   },
 ];
 

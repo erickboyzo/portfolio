@@ -27,5 +27,5 @@ export interface Project {
   images: ImageResolution[];
   type?: string;
 
-  [k: string]: any;
+  [k: string]: Record<string, string>;
 }

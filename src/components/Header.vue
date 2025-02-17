@@ -64,7 +64,7 @@ const myPropValue = ref(props.flushHeader);
 
 watch(
   () => props.flushHeader,
-  (newValue, oldValue) => {
+  (newValue, _) => {
     myPropValue.value = newValue; // Update the value in the ref if needed
   },
 );
