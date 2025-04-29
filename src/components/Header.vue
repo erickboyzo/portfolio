@@ -1,11 +1,11 @@
 <template>
   <v-app-bar app height="70" density="comfortable" scroll-behavior="elevate" :elevation="flushHeader ? null : 12" scroll-target="#content-container">
     <v-container class="pa-0 d-flex align-center">
-      <v-app-bar-nav-icon variant="text" v-bind:icon="!drawer ? 'mdi-menu' : 'mdi-backburger'" v-if="mobile" @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <header-title :title="name"></header-title>
-      <v-spacer class="hidden-xs-only"></v-spacer>
+      <v-app-bar-nav-icon variant="text" :icon="drawer ? 'mdi-backburger' : 'mdi-menu'" v-if="mobile" @click="toggleDrawer" />
+      <header-title :title="name" />
+      <v-spacer class="hidden-xs-only" />
       <v-toolbar-items class="hidden-sm-and-down button-nav">
-        <v-btn class="header-btn" v-for="link in links" variant="text" v-bind:key="link.link" :to="link.link">
+        <v-btn v-for="link in navigationLinks" :key="link.link" :to="link.link" class="header-btn" variant="text">
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
@@ -19,7 +19,7 @@
   <v-navigation-drawer v-model="drawer" app v-if="mobile" height="100vh" width="500">
     <v-list nav dense>
       <v-list-group class="app-links" v-model="group">
-        <v-list-item v-for="link in links" v-bind:key="link.link" :to="link.link">
+        <v-list-item v-for="link in navigationLinks" :key="link.link" :to="link.link">
           {{ link.title }}
         </v-list-item>
       </v-list-group>
@@ -27,23 +27,40 @@
   </v-navigation-drawer>
   <v-main>
     <v-container id="content-container" class="my-5">
-      <slot></slot>
+      <slot />
     </v-container>
   </v-main>
 </template>
 
 <script setup lang="ts">
+import { useResumeStore } from "@/stores/store";
+import { ref, computed } from "vue";
+import { useDisplay } from "vuetify";
 import HeaderTitle from "@/components/HeaderTitle.vue";
-import { ref, watch } from "vue";
-import { useDisplay } from "vuetify/dist/vuetify";
-import ThemeToggle from "./ThemeToggle.vue";
-import { resumeStore } from "@/stores/store";
+import ThemeToggle from "@/components/ThemeToggle.vue";
+
+interface NavigationLink {
+  title: string;
+  link: string;
+}
+
+interface Props {
+  flushHeader?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  flushHeader: false,
+});
 
 const { mobile } = useDisplay();
-const props = defineProps({
-  flushHeader: Boolean,
-});
-const links = [
+const resume = useResumeStore();
+
+const drawer = ref(false);
+const group = ref<null | string>(null);
+
+const name = computed(() => resume.resume.basics.name);
+
+const navigationLinks: NavigationLink[] = [
   {
     title: "About Me",
     link: "about",
@@ -57,17 +74,10 @@ const links = [
     link: "contact",
   },
 ];
-const drawer = ref(false);
-const group = null;
-const name = resumeStore().resume.basics.name;
-const myPropValue = ref(props.flushHeader);
 
-watch(
-  () => props.flushHeader,
-  (newValue, _) => {
-    myPropValue.value = newValue; // Update the value in the ref if needed
-  },
-);
+const toggleDrawer = () => {
+  drawer.value = !drawer.value;
+};
 </script>
 
 <style lang="scss" scoped>
@@ -75,32 +85,29 @@ watch(
   width: 100% !important;
 }
 
-//.v-app-bar.v-toolbar {
-//
-//}
-
 .v-app-bar {
   background-color: rgb(var(--v-theme-background));
-  //border-bottom: 0.2px solid rgb(var(--v-theme-outline));
-  //
+
   .v-toolbar__content {
     padding-bottom: 0 !important;
   }
 }
 
 .v-toolbar__content {
-  padding-bottom: 0 !important;
-  padding-top: 0 !important;
+  padding: {
+    bottom: 0 !important;
+    top: 0 !important;
+  }
 }
 
 .theme-toggle {
-  span {
-    margin-bottom: 1px;
-  }
-
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+
+  span {
+    margin-bottom: 1px;
+  }
 }
 
 .button-nav {
