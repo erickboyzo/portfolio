@@ -1,11 +1,12 @@
-import type { ResumeSchema } from '@/interfaces/resume';
-import { defineStore } from 'pinia';
-import siteMetaData from './site-meta-data';
+import { defineStore } from "pinia";
 
-export const resumeStore = defineStore('resumeStore', {
+import type { ResumeSchema } from "@/interfaces/resume";
+import type { SiteMetaDataSchema } from "@/interfaces/site-meta-data";
+
+export const useResumeStore = defineStore("resumeStore", {
   state: () => ({
-    gitConnectedProfile: 'erickboyzo',
-    metaData: siteMetaData,
+    gitConnectedProfile: "erickboyzo",
+    metaData: {} as SiteMetaDataSchema,
     resumeData: {} as ResumeSchema,
   }),
   getters: {
