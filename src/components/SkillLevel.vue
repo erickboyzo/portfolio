@@ -1,82 +1,97 @@
 <template>
-  <div class="skill-gauge d-flex" :class="skill.level.toLowerCase()">
-    <div class="square first-square"></div>
-    <div class="square"></div>
-    <div class="square"></div>
-    <div class="square"></div>
-    <div class="square last-square"></div>
+  <div class="skill-gauge d-flex" :class="skillLevelClass">
+    <div
+      v-for="index in 5"
+      :key="index"
+      class="square"
+      :class="{
+        'first-square': index === 1,
+        'last-square': index === 5,
+        filled: isSquareFilled(index),
+      }"
+    />
   </div>
 </template>
 
-<script lang="ts">
-import type { Skill } from "@/interfaces/skill";
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { computed } from "vue";
 
-export default defineComponent({
-  name: "SkillLevel",
-  props: {
-    skill: {
-      type: Object as () => Skill,
-    },
-  },
-  data() {
-    return {};
-  },
-});
+interface Props {
+  skill: {
+    level: SkillLevel;
+  };
+}
+
+type SkillLevel = "Learning" | "Beginner" | "Intermediate" | "Advanced" | "Expert";
+
+const props = defineProps<Props>();
+
+const skillLevelClass = computed(() => props.skill.level.toLowerCase());
+
+const isSquareFilled = (index: number): boolean => {
+  switch (props.skill.level.toLowerCase()) {
+    case "learning":
+      return index === 1;
+    case "beginner":
+      return index <= 2;
+    case "intermediate":
+      return index <= 3;
+    case "advanced":
+      return index <= 4;
+    case "expert":
+      return true;
+    default:
+      return false;
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-@use "node_modules/vuetify/settings";
+@use "vuetify/settings" as vuetify-settings;
 
 .square {
   width: 20px;
   height: 20px;
-  background-color: gray;
+  background-color: rgb(var(--v-theme-surface-variant));
   display: inline-block;
   margin-right: 3px;
-}
+  transition: background-color 0.3s ease;
 
-.first-square {
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
-  margin-right: 3px;
-}
+  &.filled {
+    background-color: rgb(var(--v-theme-primary));
+  }
 
-.last-square {
-  border-top-right-radius: 10px;
-  border-bottom-right-radius: 10px;
-  margin-right: 0;
+  &.first-square {
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+  }
+
+  &.last-square {
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    margin-right: 0;
+  }
 }
 
 .skill-gauge {
-  &.learning {
-    .square:first-child {
-      background-color: #{map-get(settings.$amber, "darken-4")};
-    }
+  &.learning .filled {
+    background-color: #{map-get(vuetify-settings.$amber, "darken-4")};
   }
 
-  &.beginner {
-    .square:nth-child(-1n + 2) {
-      background-color: #{map-get(settings.$amber, "darken-1")};
-    }
+  &.beginner .filled {
+    background-color: #{map-get(vuetify-settings.$amber, "darken-1")};
   }
 
-  &.intermediate {
-    .square:nth-child(-1n + 3) {
-      background-color: #{map-get(settings.$amber, "base")};
-    }
+  &.intermediate .filled {
+    background-color: #{map-get(vuetify-settings.$amber, "base")};
   }
 
-  &.advanced {
-    .square:not(:last-child) {
-      background-color: #{map-get(settings.$green, "lighten-2")};
-    }
+  &.advanced .filled {
+    background-color: #{map-get(vuetify-settings.$green, "lighten-2")};
   }
 
-  &.expert {
-    .square {
-      background-color: #{map-get(settings.$green, "darken-3")};
-    }
+  &.expert .filled {
+    background-color: #{map-get(vuetify-settings.$green, "darken-3")};
   }
 }
 </style>

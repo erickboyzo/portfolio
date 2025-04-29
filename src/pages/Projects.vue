@@ -1,103 +1,115 @@
 <template>
   <div class="project">
     <v-container class="pa-0">
-      <h1 class="font-weight-light my-5 text-h2">{{ resumeMetaData.PROJECTS }}</h1>
+      <SectionHeader>
+        {{ resumeMetaData.navigation.projects }}
+        <template #subtitle>
+          {{ resumeMetaData.sections.devExperienceSubTitle }}
+        </template>
+      </SectionHeader>
 
-      <template v-if="!projectsData || loading">
+      <template v-if="isLoading">
         <v-row>
-          <v-col v-for="num in placeHolders" v-bind:key="num" cols="12" md="4">
-            <v-skeleton-loader v-bind="attrs" type="card-avatar, article, actions"></v-skeleton-loader>
+          <v-col v-for="num in PLACEHOLDER_COUNT" :key="`placeholder-${num}`" cols="12" md="4">
+            <v-skeleton-loader v-bind="skeletonAttrs" type="card-avatar, article, actions" />
           </v-col>
         </v-row>
       </template>
+
       <template v-else>
         <v-row>
           <v-col cols="12">
-            <project-container :projects="projectsData"></project-container>
+            <ProjectContainer :projects="projects" />
           </v-col>
         </v-row>
       </template>
     </v-container>
-    <v-container class="px-0 py-10 my-5" v-if="!loading">
-      <h1 class="font-weight-light my-5 text-h2">{{ resumeMetaData.TECH_SKILLS }}</h1>
+
+    <v-container v-if="!isLoading" class="px-0 py-10 my-5">
+      <SectionHeader>
+        {{ resumeMetaData.sections.techSkills }}
+        <template #subtitle>
+          {{ resumeMetaData.sections.techSkillsSubTitle }}
+        </template>
+      </SectionHeader>
+
       <v-row>
-        <v-col sm="6" md="3" v-for="(skill, index) in skillsData" v-bind:key="index">
-          <skill-card :skill="skill"></skill-card>
+        <v-col v-for="(skill, index) in sortedSkills" :key="`skill-${index}`" sm="6" md="3">
+          <SkillCard :skill="skill" />
         </v-col>
       </v-row>
     </v-container>
   </div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
 import ProjectContainer from "@/components/ProjectContainer.vue";
+import SectionHeader from "@/components/SectionHeader.vue";
 import SkillCard from "@/components/SkillCard.vue";
 import type { Project } from "@/interfaces/project";
-import { resumeStore } from "@/stores/store";
-import { defineComponent } from "vue";
+import { useResumeStore } from "@/stores/store";
+import { computed, onMounted, ref } from "vue";
 
-export default defineComponent({
-  name: "ProjectsView",
-  components: {
-    SkillCard,
-    ProjectContainer,
-  },
-  data() {
-    return {
-      loading: true,
-      placeHolders: Array(9)
-        .fill(undefined, undefined, undefined)
-        .map((_, i) => i + 1),
-      projectsData: null,
-      skillsData: [],
-      attrs: {
-        class: "mb-6",
-        boilerplate: true,
-        elevation: 4,
-      },
-      resumeMetaData: resumeStore().siteMetaData,
-      resume: resumeStore().resume,
-    };
-  },
-  methods: {
-    setViewData(response: Project[]) {
-      response.forEach((p) => {
-        const imagesUrl = p.images[0] ? p.images[0].resolutions.desktop.url : undefined;
-        p.dynamicImage = `/images/${this.resumeMetaData.DEFAULT_IMAGES[Math.floor(Math.random() * this.resumeMetaData.DEFAULT_IMAGES.length)]}`;
-        p.image = imagesUrl;
-      });
-      this.projectsData = response;
-      this.loading = false;
-    },
-    setSortedSkills(): void {
-      const levelMap = {
-        Learning: 0,
-        Beginner: 1,
-        Intermediate: 2,
-        Advanced: 3,
-        Expert: 4,
-      };
-      this.skillsData = this.resume.skills
-        .sort((a, b) => {
-          return levelMap[a.level] - levelMap[b.level];
-        })
-        .reverse();
-    },
-  },
+const PLACEHOLDER_COUNT = 9;
 
-  mounted() {
-    this.setViewData([...this.resume.projects]);
-    this.setSortedSkills();
-  },
+const store = useResumeStore();
+const { resumeData: resume, siteMetaData: resumeMetaData } = store;
+
+const isLoading = ref(true);
+const projects = ref<Project[]>([]);
+
+const sortedSkills = computed(() => {
+  const levelMap: Record<string, number> = {
+    Learning: 0,
+    Beginner: 1,
+    Intermediate: 2,
+    Advanced: 3,
+    Expert: 4,
+  };
+
+  return [...resume.skills].sort((a, b) => levelMap[b.level] - levelMap[a.level]);
+});
+
+// Props for v-skeleton-loader
+const skeletonAttrs = {
+  class: "mb-6",
+  boilerplate: true,
+  elevation: 4,
+};
+
+// Methods
+const processProjectImages = (projectData: Project[]) => {
+  return projectData.map((project) => ({
+    ...project,
+    dynamicImage: `/images/${getRandomDefaultImage()}`,
+    image: project.images[0]?.resolutions.desktop.url,
+  }));
+};
+
+const getRandomDefaultImage = () => {
+  const defaultImages = resumeMetaData.defaultImages;
+  return defaultImages[Math.floor(Math.random() * defaultImages.length)];
+};
+
+const initializeProjects = () => {
+  projects.value = processProjectImages([...resume.projects]);
+  isLoading.value = false;
+};
+
+// Lifecycle
+onMounted(() => {
+  initializeProjects();
 });
 </script>
 
 <style lang="scss" scoped>
-.project-icon {
-  font-size: xxx-large;
+.project {
+  &-icon {
+    font-size: xxx-large;
+  }
 }
 
 .experience-label {
-  font-size: 13px;
+  font-size: 0.813rem; // 13px converted to rem
 }
 </style>
