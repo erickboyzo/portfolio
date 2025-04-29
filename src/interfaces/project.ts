@@ -27,5 +27,5 @@ export interface Project {
   images: ImageResolution[];
   type?: string;
 
-  [k: string]: Record<string, string>;
+  [k: string]: string | string[] | ImageResolution[] | undefined;
 }

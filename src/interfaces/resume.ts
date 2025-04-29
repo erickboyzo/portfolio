@@ -1,4 +1,4 @@
-import { Project } from "@/interfaces/project";
+import type { Project } from "@/interfaces/project";
 
 interface Profile {
   network: string;
@@ -92,6 +92,7 @@ interface Meta {
   canonical?: string;
   version?: string;
   lastModified?: string;
+
   [k: string]: unknown;
 }
 
