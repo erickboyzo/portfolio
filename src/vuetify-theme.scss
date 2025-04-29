@@ -1,5 +1,5 @@
 $font: "Roboto Flex", sans-serif;
 
-@use 'vuetify' with (
+@use "vuetify" with (
   $body-font-family: $font
 );
