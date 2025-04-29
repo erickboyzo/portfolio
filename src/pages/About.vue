@@ -2,40 +2,42 @@
   <div class="about mt-11">
     <v-row no-gutters class="px-2">
       <v-col cols="12" sm="7">
-        <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.GREETING"></h1>
-        <h1 class="font-weight-regular greeting-intro" v-html="$filters.replacePlaceHolder(resumeMetaData.GREETING_INTRO, resume.basics.name)"></h1>
+        <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.content.greeting" />
+        <h1 class="font-weight-regular greeting-intro" v-html="replacePlaceholder(resumeMetaData.content.greetingIntro, resume.basics.name)" />
         <v-col class="px-0" cols="12" sm="12">
           <div class="title-headers">
             <span class="typewriter">
-              <h2 v-if="!typingDone" class="font-weight-regular">{{ resumeMetaData.TITLE }}</h2>
+              <h2 v-if="!typingDone" class="font-weight-regular">{{ displayText }}<span class="caret" :class="{ blink: isBlinking }" /></h2>
             </span>
-            <h1 class="font-weight-regular role-title" v-if="typingDone">{{ resume.basics.label }}.</h1>
+            <h1 v-if="typingDone" class="font-weight-regular role-title">{{ resume.basics.label }}.</h1>
           </div>
         </v-col>
         <v-col class="hidden-sm-and-up" cols="12" sm="5">
-          <v-img position="top center" class="rounded-circle v-responsive mx-auto" height="200" width="200" :alt="resume.basics.name" :src="resume.basics.image"></v-img>
+          <v-img position="top center" class="rounded-circle v-responsive mx-auto" height="200" width="200" :alt="resume.basics.name" :src="resume.basics.image" />
         </v-col>
         <v-col class="px-0" cols="12" sm="12">
-          <p class="my-5" v-html="resume.basics.summary"></p>
-          <p class="my-5" v-html="resumeMetaData.ABOUT_CONTACT_TEXT"></p>
+          <p class="my-5" v-html="resume.basics.summary" />
+          <p class="my-5" v-html="resumeMetaData.content.aboutContactText" />
         </v-col>
       </v-col>
       <v-col class="hidden-xs" cols="12" sm="5">
-        <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image"></v-img>
+        <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image" />
       </v-col>
       <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
-        <v-btn size="x-large" color="primary" @click="$router.push('projects')" variant="tonal">{{ resumeMetaData.VIEW_PROJECTS }}</v-btn>
-        <v-btn class="mx-2" size="x-large" color="primary" @click="$router.push('contact')" variant="tonal">{{ resumeMetaData.CONTACT_ME }}</v-btn>
-        <IconLinks class="ml-md-3 d-flex justify-center"></IconLinks>
+        <v-btn size="x-large" color="primary" variant="tonal" @click="navigateTo('projects')">
+          {{ resumeMetaData.navigation.viewProjects }}
+        </v-btn>
+        <v-btn class="mx-2" size="x-large" color="primary" variant="tonal" @click="navigateTo('contact')">
+          {{ resumeMetaData.navigation.contactMe }}
+        </v-btn>
+        <IconLinks class="ml-md-3 d-flex justify-center" />
       </v-col>
       <v-col class="mt-10" cols="12">
-        <h1 class="font-weight-light mt-5 mb-2 text-h3">
-          {{ resumeMetaData.DEV_EXPERIENCE_TITLE }}
-        </h1>
+        <SectionHeader>{{ resumeMetaData.sections.devExperienceTitle }}</SectionHeader>
       </v-col>
     </v-row>
     <v-row no-gutters>
-      <v-col cols="12" sm="6" class="my-3" v-for="(skill, index) in resumeMetaData.PROFESSIONAL_SKILLS" v-bind:key="index">
+      <v-col v-for="(skill, index) in resumeMetaData.professionalSkills" :key="`skill-${index}`" cols="12" sm="6" class="my-3">
         <v-card variant="tonal" class="ma-2 fill-height">
           <div class="d-flex flex-column justify-center pa-3">
             <div class="d-flex flex-column pa-2">
@@ -56,33 +58,56 @@
   </div>
 </template>
 
-<script lang="ts">
-import { resumeStore } from "@/stores/store";
-import { defineComponent } from "vue";
-import IconLinks from "../components/IconLinks.vue";
+<script setup lang="ts">
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useResumeStore } from "@/stores/store";
+import { replacePlaceholder } from "@/utils/formatting";
+import SectionHeader from "@/components/SectionHeader.vue";
+import IconLinks from "@/components/IconLinks.vue";
 
-export default defineComponent({
-  name: "AboutView",
-  components: { IconLinks },
-  data: () => ({
-    resume: resumeStore().resume,
-    resumeMetaData: resumeStore().siteMetaData,
-    typingDone: false,
-  }),
-  methods: {
-    removeCode() {
-      setTimeout(() => {
-        this.typingDone = true;
-      }, 4000);
-    },
-  },
-  mounted() {
-    this.removeCode();
-  },
+const router = useRouter();
+
+const store = useResumeStore();
+const { resume, siteMetaData: resumeMetaData } = store;
+
+const displayText = ref("");
+const typingDone = ref(false);
+const isBlinking = ref(true);
+
+const getRandomDelay = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
+
+const navigateTo = (route: string): void => {
+  router.push(route);
+};
+
+const typeText = async (fullText: string): Promise<void> => {
+  const delays = {
+    typing: { min: 100, max: 200 },
+    pause: { min: 200, max: 500 },
+    longPause: { min: 500, max: 1000 },
+  };
+
+  for (let i = 0; i <= fullText.length; i++) {
+    isBlinking.value = false;
+    displayText.value = fullText.substring(0, i);
+
+    const delay = getRandomDelay(delays.typing.min, delays.typing.max);
+    await new Promise((resolve) => setTimeout(resolve, delay));
+  }
+
+  isBlinking.value = true;
+  await new Promise((resolve) => setTimeout(resolve, 3000));
+  typingDone.value = true;
+};
+
+onMounted(() => {
+  typeText(resumeMetaData.content.title);
 });
 </script>
+
 <style lang="scss">
-@use "node_modules/vuetify/settings";
+@use "vuetify/settings";
 
 .about {
   h1 {
@@ -114,10 +139,6 @@ export default defineComponent({
         font-size: 24px;
       }
     }
-    span.emoji {
-      font-size: 2rem !important;
-      margin-left: 20px;
-    }
 
     .role-title {
       font-size: 36px;
@@ -144,64 +165,14 @@ export default defineComponent({
     }
   }
 
-  .greeting-intro {
-    span {
-      color: rgb(var(--v-theme-primary));
-    }
-  }
-
-  .typewriter h3,
-  h2 {
-    overflow: hidden;
-    border-right: 0.1em solid gray;
-    white-space: nowrap;
-    margin: 0 auto;
-    letter-spacing: 0.09em;
-    animation:
-      typing 3.3s steps(30, end),
-      blink-caret 0.5s step-end infinite;
-  }
-
-  .info-icons {
-    .icon-link {
-      color: white !important;
-
-      i {
-        font-size: 34px;
-      }
-    }
-  }
-
-  .detail {
-    label,
-    a,
-    .label__info {
-      font-size: 18px;
-    }
-  }
-
-  .about-me-content {
-    font-size: 16px;
-  }
-
-  img.emojione {
-    margin: 0 !important;
-    display: inline !important;
-  }
-
-  span.emoji {
-    font-size: 3rem;
-    margin-left: 20px;
-  }
-
-  .icon-link > i {
-    font-size: 48px;
+  .greeting-intro span {
+    color: rgb(var(--v-theme-primary));
   }
 
   .icon-link {
     margin-right: 10px;
-    height: 60px !important;
-    width: 60px !important;
+    height: 60px;
+    width: 60px;
 
     i {
       font-size: 40px !important;
@@ -209,26 +180,37 @@ export default defineComponent({
   }
 }
 
-@keyframes typing {
-  from {
-    width: 0;
-  }
-  to {
-    width: 100%;
+.typewriter {
+  h2,
+  h3 {
+    overflow: hidden;
+    white-space: nowrap;
+    margin: 0 auto;
+    letter-spacing: 0.12em;
   }
 }
 
-@keyframes blink-caret {
-  from,
-  to {
-    border-color: transparent;
+.caret {
+  display: inline-block;
+  width: 3px;
+  height: 1.2em;
+  margin-left: 2px;
+  background-color: rgb(var(--v-theme-primary));
+  vertical-align: text-bottom;
+  opacity: 1;
+
+  &.blink {
+    animation: blink 0.75s step-end infinite;
+  }
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
   }
   50% {
-    border-color: gray;
+    opacity: 0;
   }
-}
-
-.v-img__img--contain {
-  object-fit: cover;
 }
 </style>
