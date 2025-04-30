@@ -1,30 +1,135 @@
-import Vue from 'vue';
-import Vuetify from 'vuetify/lib/framework';
+import { createVuetify, type VuetifyOptions } from "vuetify";
+import * as components from "vuetify/components";
+import * as directives from "vuetify/directives";
+import "vuetify/styles";
+import { md3 } from "vuetify/blueprints";
+import "@/vuetify-theme.scss";
 
-Vue.use(Vuetify);
-
-export default new Vuetify({
+let vuetifyConfig: VuetifyOptions = {
+  blueprint: md3,
   theme: {
-    dark: false,
     themes: {
-      dark: {
-        primary: '#2980B9',
-        accent: '#F1C40F',
-        secondary: '#3498DB',
-        success: '#2ECC71',
-        info: '#2196F3',
-        warning: '#F39C12',
-        error: '#E74C3C',
-      },
       light: {
-        primary: '#2980B9',
-        accent: '#F1C40F',
-        secondary: '#3498DB',
-        success: '#2ECC71',
-        info: '#2196F3',
-        warning: '#F39C12',
-        error: '#E74C3C',
+        dark: false,
+        colors: {
+          primary: "#32628D",
+          "surface-tint": "#32628D",
+          "on-primary": "#FFFFFF",
+          "primary-container": "#CFE5FF",
+          "on-primary-container": "#001D34",
+          secondary: "#526070",
+          "on-secondary": "#FFFFFF",
+          "secondary-container": "#D5E4F7",
+          "on-secondary-container": "#0F1D2A",
+          tertiary: "#695779",
+          "on-tertiary": "#FFFFFF",
+          "tertiary-container": "#F0DBFF",
+          "on-tertiary-container": "#241532",
+          error: "#BA1A1A",
+          "on-error": "#FFFFFF",
+          "error-container": "#FFDAD6",
+          "on-error-container": "#410002",
+          background: "#F7F9FF",
+          "on-background": "#181C20",
+          surface: "#F7F9FF",
+          "on-surface": "#181C20",
+          "surface-variant": "#DEE3EB",
+          "on-surface-variant": "#42474E",
+          outline: "#72777F",
+          "outline-variant": "#C2C7CF",
+          shadow: "#000000",
+          scrim: "#000000",
+          "inverse-surface": "#2D3135",
+          "inverse-on-surface": "#EFF1F6",
+          "inverse-primary": "#9DCBFC",
+          "primary-fixed": "#CFE5FF",
+          "on-primary-fixed": "#001D34",
+          "primary-fixed-dim": "#9DCBFC",
+          "on-primary-fixed-variant": "#134A74",
+          "secondary-fixed": "#D5E4F7",
+          "on-secondary-fixed": "#0F1D2A",
+          "secondary-fixed-dim": "#BAC8DA",
+          "on-secondary-fixed-variant": "#3A4857",
+          "tertiary-fixed": "#F0DBFF",
+          "on-tertiary-fixed": "#241532",
+          "tertiary-fixed-dim": "#D4BEE6",
+          "on-tertiary-fixed-variant": "#514060",
+          "surface-dim": "#D8DAE0",
+          "surface-bright": "#F7F9FF",
+          "surface-container-lowest": "#FFFFFF",
+          "surface-container-low": "#F2F3F9",
+          "surface-container": "#ECEEF4",
+          "surface-container-high": "#E6E8EE",
+          "surface-container-highest": "#E0E2E8",
+        },
+      },
+      dark: {
+        dark: true,
+        colors: {
+          primary: "#9DCBFC",
+          "surface-tint": "#9DCBFC",
+          "on-primary": "#003355",
+          "primary-container": "#134A74",
+          "on-primary-container": "#CFE5FF",
+          secondary: "#BAC8DA",
+          "on-secondary": "#243240",
+          "secondary-container": "#3A4857",
+          "on-secondary-container": "#D5E4F7",
+          tertiary: "#D4BEE6",
+          "on-tertiary": "#392A49",
+          "tertiary-container": "#514060",
+          "on-tertiary-container": "#F0DBFF",
+          error: "#FFB4AB",
+          "on-error": "#690005",
+          "error-container": "#93000A",
+          "on-error-container": "#FFDAD6",
+          background: "#101418",
+          "on-background": "#E0E2E8",
+          surface: "#101418",
+          "on-surface": "#C2C7CF",
+          "surface-variant": "#42474E",
+          "on-surface-variant": "#C2C7CF",
+          outline: "#8C9199",
+          "outline-variant": "#42474E",
+          shadow: "#000000",
+          scrim: "#000000",
+          "inverse-surface": "#E0E2E8",
+          "inverse-on-surface": "#2D3135",
+          "inverse-primary": "#32628D",
+          "primary-fixed": "#CFE5FF",
+          "on-primary-fixed": "#001D34",
+          "primary-fixed-dim": "#9DCBFC",
+          "on-primary-fixed-variant": "#134A74",
+          "secondary-fixed": "#D5E4F7",
+          "on-secondary-fixed": "#0F1D2A",
+          "secondary-fixed-dim": "#BAC8DA",
+          "on-secondary-fixed-variant": "#3A4857",
+          "tertiary-fixed": "#F0DBFF",
+          "on-tertiary-fixed": "#241532",
+          "tertiary-fixed-dim": "#D4BEE6",
+          "on-tertiary-fixed-variant": "#514060",
+          "surface-dim": "#101418",
+          "surface-bright": "#36393E",
+          "surface-container-lowest": "#0B0E12",
+          "surface-container-low": "#181C20",
+          "surface-container": "#1D2024",
+          "surface-container-high": "#272A2F",
+          "surface-container-highest": "#32353A",
+        },
       },
     },
+    defaultTheme: "dark",
   },
-});
+};
+
+if (import.meta.env.DEV) {
+  vuetifyConfig = {
+    components: { components },
+    directives,
+    ...vuetifyConfig,
+  };
+}
+export default createVuetify(vuetifyConfig);
+
+// Export for test.
+export { components, directives };
