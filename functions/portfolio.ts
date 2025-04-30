@@ -5,8 +5,8 @@ interface PortfolioBodyRequest {
 }
 
 interface ApiResponse {
-  siteMetaData?: any;
-  profile?: any;
+  siteMetaData?: unknown;
+  profile?: unknown;
   error?: string;
 }
 
@@ -18,7 +18,7 @@ const validateRequestBody = (body: PortfolioBodyRequest): boolean => {
   return !!body.gitConnectedProfileKey;
 };
 
-const fetchSiteMetadata = async (url: string, headers: HeadersInit): Promise<any> => {
+const fetchSiteMetadata = async (url: string, headers: HeadersInit): Promise<unknown> => {
   const response = await fetch(url, { headers });
   if (!response.ok) {
     throw new Error(`Site metadata API failed with status: ${response.status}`);
@@ -26,7 +26,7 @@ const fetchSiteMetadata = async (url: string, headers: HeadersInit): Promise<any
   return response.json();
 };
 
-const fetchGitConnectedProfile = async (profileKey: string): Promise<any> => {
+const fetchGitConnectedProfile = async (profileKey: string): Promise<unknown> => {
   const response = await fetch(`https://gitconnected.com/v1/portfolio/${profileKey}`);
   if (!response.ok) {
     throw new Error(`GitConnected API failed with status: ${response.status}`);

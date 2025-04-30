@@ -49,7 +49,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       return generateResponse(500, "An error occurred.");
     }
 
-    const body = (await context.request.json())['body'] as MessageBodyRequest;
+    const body = (await context.request.json())["body"] as MessageBodyRequest;
     const { name, email, subject, message } = body;
 
     if (![name, email, subject, message].every((val) => Boolean(val))) {
