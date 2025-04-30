@@ -1,16 +1,18 @@
 <template>
   <v-app id="portfolio">
     <template v-if="!loading">
-      <Header :flush-header="isAtTheTopOfPage">
+      <AppHeader :flush-header="isAtTheTopOfPage">
         <RouterView />
-      </Header>
-      <Footer />
+      </AppHeader>
+      <AppFooter />
     </template>
     <LoadingDialog :show="loading" :error="apiError" @retry="fetchProfile" />
   </v-app>
 </template>
 
 <script setup lang="ts">
+import AppFooter from "@/components/AppFooter.vue";
+import AppHeader from "@/components/AppHeader.vue";
 import LoadingDialog from "@/components/LoadingDialog.vue";
 import type { ProfileResponse } from "@/interfaces/profile-response";
 import { useResumeStore } from "@/stores/store";
@@ -18,12 +20,10 @@ import axios from "axios";
 import debounce from "lodash/debounce";
 import { onBeforeMount, onMounted, onUnmounted, ref } from "vue";
 import { useTheme } from "vuetify";
-import Footer from "./components/Footer.vue";
-import Header from "./components/Header.vue";
 
 const useScrollHandler = () => {
   const isAtTheTopOfPage = ref(true);
-  let handleDebouncedScroll: Function;
+  let handleDebouncedScroll: () => void;
 
   const handleScroll = () => {
     isAtTheTopOfPage.value = !window.pageYOffset;
