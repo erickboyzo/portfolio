@@ -43,12 +43,12 @@
 </template>
 
 <script setup lang="ts">
-import ProjectContainer from "@/components/ProjectContainer.vue";
-import SectionHeader from "@/components/SectionHeader.vue";
-import SkillCard from "@/components/SkillCard.vue";
-import type { Project } from "@/interfaces/project";
-import { useResumeStore } from "@/stores/store";
-import { computed, onMounted, ref } from "vue";
+import ProjectContainer from '@/components/ProjectContainer.vue';
+import SectionHeader from '@/components/SectionHeader.vue';
+import SkillCard from '@/components/SkillCard.vue';
+import type { Project } from '@/interfaces/project';
+import { useResumeStore } from '@/stores/store';
+import { computed, onMounted, ref } from 'vue';
 
 const PLACEHOLDER_COUNT = 9;
 
@@ -72,7 +72,7 @@ const sortedSkills = computed(() => {
 
 // Props for v-skeleton-loader
 const skeletonAttrs = {
-  class: "mb-6",
+  class: 'mb-6',
   boilerplate: true,
   elevation: 4,
 };

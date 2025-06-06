@@ -24,8 +24,8 @@ defineProps<{
 </script>
 
 <style lang="scss" scoped>
-@import "node_modules/vuetify/styles";
-@import "node_modules/vuetify/settings";
+@import 'node_modules/vuetify/styles';
+@import 'node_modules/vuetify/settings';
 
 .dev-tags-title {
   position: relative;
@@ -70,7 +70,7 @@ defineProps<{
     position: relative;
 
     &::after {
-      content: "";
+      content: '';
       position: absolute;
       bottom: -4px;
       left: 0;

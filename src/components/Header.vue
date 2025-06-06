@@ -1,11 +1,26 @@
 <template>
-  <v-app-bar app height="70" density="comfortable" scroll-behavior="elevate" :elevation="flushHeader ? null : 12" scroll-target="#content-container">
+  <v-app-bar
+    app
+    height="70"
+    density="comfortable"
+    scroll-behavior="elevate"
+    :elevation="flushHeader ? null : 12"
+    scroll-target="#content-container">
     <v-container class="pa-0 d-flex align-center">
-      <v-app-bar-nav-icon variant="text" :icon="drawer ? 'mdi-backburger' : 'mdi-menu'" v-if="mobile" @click="toggleDrawer" />
+      <v-app-bar-nav-icon
+        v-if="mobile"
+        variant="text"
+        :icon="drawer ? 'mdi-backburger' : 'mdi-menu'"
+        @click="toggleDrawer" />
       <header-title :title="name" />
       <v-spacer class="hidden-xs-only" />
       <v-toolbar-items class="hidden-sm-and-down button-nav">
-        <v-btn v-for="link in navigationLinks" :key="link.link" :to="link.link" class="header-btn" variant="text">
+        <v-btn
+          v-for="link in navigationLinks"
+          :key="link.link"
+          :to="link.link"
+          class="header-btn"
+          variant="text">
           {{ link.title }}
         </v-btn>
       </v-toolbar-items>
@@ -16,9 +31,9 @@
       </div>
     </v-container>
   </v-app-bar>
-  <v-navigation-drawer v-model="drawer" app v-if="mobile" height="100vh" width="500">
+  <v-navigation-drawer v-if="mobile" v-model="drawer" app height="100vh" width="500">
     <v-list nav dense>
-      <v-list-group class="app-links" v-model="group">
+      <v-list-group v-model="group" class="app-links">
         <v-list-item v-for="link in navigationLinks" :key="link.link" :to="link.link">
           {{ link.title }}
         </v-list-item>
@@ -33,11 +48,11 @@
 </template>
 
 <script setup lang="ts">
-import { useResumeStore } from "@/stores/store";
-import { ref, computed } from "vue";
-import { useDisplay } from "vuetify";
-import HeaderTitle from "@/components/HeaderTitle.vue";
-import ThemeToggle from "@/components/ThemeToggle.vue";
+import { useResumeStore } from '@/stores/store';
+import { ref, computed } from 'vue';
+import { useDisplay } from 'vuetify';
+import HeaderTitle from '@/components/HeaderTitle.vue';
+import ThemeToggle from '@/components/ThemeToggle.vue';
 
 interface NavigationLink {
   title: string;
@@ -62,16 +77,16 @@ const name = computed(() => resume.resume.basics.name);
 
 const navigationLinks: NavigationLink[] = [
   {
-    title: "About Me",
-    link: "about",
+    title: 'About Me',
+    link: 'about',
   },
   {
-    title: "Projects",
-    link: "projects",
+    title: 'Projects',
+    link: 'projects',
   },
   {
-    title: "Contact Me",
-    link: "contact",
+    title: 'Contact Me',
+    link: 'contact',
   },
 ];
 

@@ -1,11 +1,19 @@
 <template>
-  <v-dialog :model-value="show" :max-width="error ? '480' : '360'" persistent :class="{ 'error-state': error }">
+  <v-dialog
+    :model-value="show"
+    :max-width="error ? '480' : '360'"
+    persistent
+    :class="{ 'error-state': error }">
     <v-card class="loading-dialog pa-4" elevation="12" rounded="lg">
       <div class="d-flex flex-column align-center">
         <div class="loading-animation mb-4">
           <template v-if="!error">
             <v-progress-circular color="primary" indeterminate size="64" width="4">
-              <v-icon class="loading-icon" color="primary" size="32" icon="mdi-file-document-outline" />
+              <v-icon
+                class="loading-icon"
+                color="primary"
+                size="32"
+                icon="mdi-file-document-outline" />
             </v-progress-circular>
           </template>
           <template v-else>
@@ -14,14 +22,26 @@
         </div>
 
         <h3 class="text-h5 font-weight-medium mb-4" :class="{ 'error-title': error }">
-          {{ error ? "Failed to Load Resume" : "Loading Resume" }}
+          {{ error ? 'Failed to Load Resume' : 'Loading Resume' }}
         </h3>
 
         <p class="text-body-1 text-medium-emphasis text-center" :class="{ 'error-message': error }">
-          {{ error ? "There was an error loading the resume data. Please check your connection and try again. If the problem persists, please contact me." : "Please wait while we fetch your resume data..." }}
+          {{
+            error
+              ? 'There was an error loading the resume data. Please check your connection and try again. If the problem persists, please contact me.'
+              : 'Please wait while we fetch your resume data...'
+          }}
         </p>
 
-        <v-btn v-if="error" color="primary" size="large" class="mt-6" prepend-icon="mdi-refresh" @click="$emit('retry')"> Try Again </v-btn>
+        <v-btn
+          v-if="error"
+          color="primary"
+          size="large"
+          class="mt-6"
+          prepend-icon="mdi-refresh"
+          @click="$emit('retry')">
+          Try Again
+        </v-btn>
       </div>
     </v-card>
   </v-dialog>
@@ -34,7 +54,7 @@ defineProps<{
 }>();
 
 defineEmits<{
-  (e: "retry"): void;
+  (e: 'retry'): void;
 }>();
 </script>
 

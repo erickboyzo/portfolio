@@ -5,8 +5,8 @@
 </template>
 
 <script setup lang="ts">
-import { getDeviconClass } from "@/utils/formatting";
-import { computed } from "vue";
+import { getDeviconClass } from '@/utils/formatting';
+import { computed } from 'vue';
 
 const props = defineProps<{
   iconName: string;

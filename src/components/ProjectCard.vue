@@ -1,7 +1,10 @@
 <template>
   <v-card variant="tonal" class="my-5">
     <div class="img-hover-zoom">
-      <v-img :src="project.image || project.dynamicImage" class="white--text align-end project-image" height="200px" />
+      <v-img
+        :src="project.image || project.dynamicImage"
+        class="white--text align-end project-image"
+        height="200px" />
     </div>
 
     <v-card-title class="text-capitalize text-h5">
@@ -9,7 +12,11 @@
     </v-card-title>
 
     <div class="ml-3">
-      <TechnologyIcon v-for="icon in [...project.libraries, ...project.languages]" :key="icon" :icon-name="icon" class="ma-2" />
+      <TechnologyIcon
+        v-for="icon in [...project.libraries, ...project.languages]"
+        :key="icon"
+        :icon-name="icon"
+        class="ma-2" />
     </div>
 
     <v-card-subtitle class="text--secondary">
@@ -24,7 +31,13 @@
       <div class="d-flex actions my-2">
         <v-tooltip location="bottom">
           <template #activator="{ props }">
-            <v-btn :href="project.githubUrl" target="_blank" color="primary" text v-bind="props" size="large">
+            <v-btn
+              :href="project.githubUrl"
+              target="_blank"
+              color="primary"
+              text
+              v-bind="props"
+              size="large">
               <v-icon class="mr-1">mdi-file-code-outline</v-icon>
               Github
             </v-btn>
@@ -34,7 +47,13 @@
 
         <v-tooltip v-if="project.website" location="bottom">
           <template #activator="{ props }">
-            <v-btn :href="project.website" target="_blank" color="primary" text v-bind="props" size="large">
+            <v-btn
+              :href="project.website"
+              target="_blank"
+              color="primary"
+              text
+              v-bind="props"
+              size="large">
               <v-icon class="mr-1">mdi-web</v-icon>
               Website
             </v-btn>
@@ -47,11 +66,11 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { useResumeStore } from "@/stores/store";
-import { formatName } from "@/utils/formatting";
-import type { Project } from "@/interfaces/project";
-import TechnologyIcon from "@/components/TechnologyIcon.vue";
+import { computed } from 'vue';
+import { useResumeStore } from '@/stores/store';
+import { formatName } from '@/utils/formatting';
+import type { Project } from '@/interfaces/project';
+import TechnologyIcon from '@/components/TechnologyIcon.vue';
 
 interface Props {
   project: Project;

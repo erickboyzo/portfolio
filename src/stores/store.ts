@@ -1,11 +1,11 @@
-import { defineStore } from "pinia";
+import { defineStore } from 'pinia';
 
-import type { ResumeSchema } from "@/interfaces/resume";
-import type { SiteMetaDataSchema } from "@/interfaces/site-meta-data";
+import type { ResumeSchema } from '@/interfaces/resume';
+import type { SiteMetaDataSchema } from '@/interfaces/site-meta-data';
 
-export const useResumeStore = defineStore("resumeStore", {
+export const useResumeStore = defineStore('resumeStore', {
   state: () => ({
-    gitConnectedProfile: "erickboyzo",
+    gitConnectedProfile: 'erickboyzo',
     metaData: {} as SiteMetaDataSchema,
     resumeData: {} as ResumeSchema,
   }),

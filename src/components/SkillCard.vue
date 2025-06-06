@@ -16,10 +16,10 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import SkillLevel from "@/components/SkillLevel.vue";
-import type { Skill } from "@/interfaces/skill";
-import { getDeviconClass } from "@/utils/formatting";
+import { computed } from 'vue';
+import SkillLevel from '@/components/SkillLevel.vue';
+import type { Skill } from '@/interfaces/skill';
+import { getDeviconClass } from '@/utils/formatting';
 
 interface Props {
   skill: Skill;

@@ -1,4 +1,4 @@
-import { Env } from "./api.env";
+import { Env } from './api.env';
 
 interface PortfolioBodyRequest {
   gitConnectedProfileKey: string;
@@ -38,7 +38,7 @@ const generateSuccessResponse = (data: ApiResponse): Response => {
   return new Response(JSON.stringify(data), {
     status: 200,
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
     },
   });
 };
@@ -47,8 +47,8 @@ const generateErrorResponse = (
   status: number,
   error: string,
   headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  },
+    'Content-Type': 'application/json',
+  }
 ): Response => {
   return new Response(JSON.stringify({ error }), {
     status,
@@ -59,12 +59,12 @@ const generateErrorResponse = (
 export const onRequest: PagesFunction<Env> = async (context) => {
   try {
     if (!validateEnvironmentVars(context.env)) {
-      return generateErrorResponse(500, "Missing required environment variables");
+      return generateErrorResponse(500, 'Missing required environment variables');
     }
 
     const body = (await context.request.json()) as PortfolioBodyRequest;
     if (!validateRequestBody(body)) {
-      return generateErrorResponse(400, "Missing gitConnectedProfileKey");
+      return generateErrorResponse(400, 'Missing gitConnectedProfileKey');
     }
 
     const { gitConnectedProfileKey } = body;
@@ -72,24 +72,24 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
     const url = `https://usc-01-api.jsonsilo.com/${siloUUIDFile}`;
     const headers = {
-      "X-SILO-KEY": siloKey,
-      "Content-Type": "application/json",
+      'X-SILO-KEY': siloKey,
+      'Content-Type': 'application/json',
     };
 
     let siteMetaDataJson;
     try {
       siteMetaDataJson = await fetchSiteMetadata(url, headers);
     } catch (error) {
-      console.error("Error fetching site metadata:", error);
-      return generateErrorResponse(500, "Failed to fetch site metadata");
+      console.error('Error fetching site metadata:', error);
+      return generateErrorResponse(500, 'Failed to fetch site metadata');
     }
 
     let gitConnectedProfileJson;
     try {
       gitConnectedProfileJson = await fetchGitConnectedProfile(gitConnectedProfileKey);
     } catch (error) {
-      console.error("Error fetching GitConnected profile:", error);
-      return generateErrorResponse(500, "Failed to fetch GitConnected profile");
+      console.error('Error fetching GitConnected profile:', error);
+      return generateErrorResponse(500, 'Failed to fetch GitConnected profile');
     }
 
     // Return successful response with combined data
@@ -98,7 +98,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
       profile: gitConnectedProfileJson,
     });
   } catch (error) {
-    console.error("Unexpected error:", error);
-    return generateErrorResponse(500, "An unexpected error occurred");
+    console.error('Unexpected error:', error);
+    return generateErrorResponse(500, 'An unexpected error occurred');
   }
 };
