@@ -7,14 +7,13 @@
       :class="{
         'first-square': index === 1,
         'last-square': index === 5,
-        filled: isSquareFilled(index),
-      }"
-    />
+        filled: filledSquares[index - 1],
+      }" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
   skill: {
@@ -22,32 +21,31 @@ interface Props {
   };
 }
 
-type SkillLevel = "Learning" | "Beginner" | "Intermediate" | "Advanced" | "Expert";
+type SkillLevel = 'Learning' | 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
 
 const props = defineProps<Props>();
 
 const skillLevelClass = computed(() => props.skill.level.toLowerCase());
 
-const isSquareFilled = (index: number): boolean => {
-  switch (props.skill.level.toLowerCase()) {
-    case "learning":
-      return index === 1;
-    case "beginner":
-      return index <= 2;
-    case "intermediate":
-      return index <= 3;
-    case "advanced":
-      return index <= 4;
-    case "expert":
-      return true;
-    default:
-      return false;
-  }
-};
+const filledSquares = computed(() => {
+  const level = props.skill.level.toLowerCase();
+  const maxFilled =
+    {
+      learning: 1,
+      beginner: 2,
+      intermediate: 3,
+      advanced: 4,
+      expert: 5,
+    }[level] || 0;
+
+  return Array(5)
+    .fill(false)
+    .map((_, i) => i < maxFilled);
+});
 </script>
 
 <style lang="scss" scoped>
-@use "vuetify/settings" as vuetify-settings;
+@use 'vuetify/settings' as vuetify-settings;
 
 .square {
   width: 20px;
@@ -75,23 +73,23 @@ const isSquareFilled = (index: number): boolean => {
 
 .skill-gauge {
   &.learning .filled {
-    background-color: #{map-get(vuetify-settings.$amber, "darken-4")};
+    background-color: #{map-get(vuetify-settings.$amber, 'darken-4')};
   }
 
   &.beginner .filled {
-    background-color: #{map-get(vuetify-settings.$amber, "darken-1")};
+    background-color: #{map-get(vuetify-settings.$amber, 'darken-1')};
   }
 
   &.intermediate .filled {
-    background-color: #{map-get(vuetify-settings.$amber, "base")};
+    background-color: #{map-get(vuetify-settings.$amber, 'base')};
   }
 
   &.advanced .filled {
-    background-color: #{map-get(vuetify-settings.$green, "lighten-2")};
+    background-color: #{map-get(vuetify-settings.$green, 'lighten-2')};
   }
 
   &.expert .filled {
-    background-color: #{map-get(vuetify-settings.$green, "darken-3")};
+    background-color: #{map-get(vuetify-settings.$green, 'darken-3')};
   }
 }
 </style>

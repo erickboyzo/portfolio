@@ -1,4 +1,4 @@
-import { Env } from "./api.env";
+import { Env } from './api.env';
 
 interface Personalization {
   to: EmailAddress[];
@@ -24,8 +24,16 @@ interface SendGridBodyRequest {
   replyTo: EmailAddress;
   subject: string;
   content: Content[];
-  mailSettings: { bypassListManagement: { enable: boolean }; footer: { enable: boolean }; sandboxMode: { enable: boolean } };
-  trackingSettings: { clickTracking: { enable: boolean; enableText: boolean }; openTracking: { enable: boolean; substitutionTag: string }; subscriptionTracking: { enable: boolean } };
+  mailSettings: {
+    bypassListManagement: { enable: boolean };
+    footer: { enable: boolean };
+    sandboxMode: { enable: boolean };
+  };
+  trackingSettings: {
+    clickTracking: { enable: boolean; enableText: boolean };
+    openTracking: { enable: boolean; substitutionTag: string };
+    subscriptionTracking: { enable: boolean };
+  };
 }
 
 interface EmailAddress {
@@ -40,42 +48,45 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     const fromEmailAddress = context.env.SENDER_EMAIL_ADDRESS;
 
     if (!sendGridApiKey) {
-      console.warn("Missing sendGridApiKey");
-      return generateResponse(500, "An error occurred.");
+      console.warn('Missing sendGridApiKey');
+      return generateResponse(500, 'An error occurred.');
     }
 
     if (!destinationEmail || !fromEmailAddress) {
-      console.warn("Missing email address");
-      return generateResponse(500, "An error occurred.");
+      console.warn('Missing email address');
+      return generateResponse(500, 'An error occurred.');
     }
 
-    const body = (await context.request.json())["body"] as MessageBodyRequest;
+    const body = (await context.request.json())['body'] as MessageBodyRequest;
     const { name, email, subject, message } = body;
 
     if (![name, email, subject, message].every((val) => Boolean(val))) {
-      console.warn("Missing required field");
-      return generateResponse(500, "An error occurred. Missing Required Fields.");
+      console.warn('Missing required field');
+      return generateResponse(500, 'An error occurred. Missing Required Fields.');
     }
 
-    const response = await sendGridApiRequest(prepareEmailRequest(destinationEmail, fromEmailAddress, body), sendGridApiKey);
+    const response = await sendGridApiRequest(
+      prepareEmailRequest(destinationEmail, fromEmailAddress, body),
+      sendGridApiKey
+    );
 
     if (response.ok) {
-      return generateResponse(200, "Email sent successfully!");
+      return generateResponse(200, 'Email sent successfully!');
     } else {
       const errorBody = await response.text(); // Get error details from SendGrid
-      console.error("SendGrid Error:", response.status, errorBody); // Log the error
-      return generateResponse(response.status, "Failed to send email.");
+      console.error('SendGrid Error:', response.status, errorBody); // Log the error
+      return generateResponse(response.status, 'Failed to send email.');
     }
   } catch (error) {
-    return generateResponse(500, "An error occurred.");
+    return generateResponse(500, 'An error occurred.');
   }
 };
 
 const sendGridApiRequest = (message: SendGridBodyRequest, sendGridApiKey: string) => {
-  return fetch("https://api.sendgrid.com/v3/mail/send", {
-    method: "POST",
+  return fetch('https://api.sendgrid.com/v3/mail/send', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
+      'Content-Type': 'application/json',
       Authorization: `Bearer ${sendGridApiKey}`,
     },
     body: JSON.stringify(message),
@@ -86,8 +97,8 @@ const generateResponse = (
   status: number,
   error: string,
   headers: Record<string, string> = {
-    "Content-Type": "application/json",
-  },
+    'Content-Type': 'application/json',
+  }
 ): Response => {
   return new Response(JSON.stringify({ error }), {
     status,
@@ -95,7 +106,11 @@ const generateResponse = (
   });
 };
 
-const prepareEmailRequest = (destinationEmail: string, fromEmailAddress: string, { name, subject, message, email }: MessageBodyRequest): SendGridBodyRequest => {
+const prepareEmailRequest = (
+  destinationEmail: string,
+  fromEmailAddress: string,
+  { name, subject, message, email }: MessageBodyRequest
+): SendGridBodyRequest => {
   return {
     personalizations: [
       {
@@ -121,7 +136,7 @@ const prepareEmailRequest = (destinationEmail: string, fromEmailAddress: string,
     subject: `New message from ${name}: ${subject}`,
     content: [
       {
-        type: "text/html",
+        type: 'text/html',
         value: `<p>New Message recieved from contact me page.</p><br><p><strong>Contact Email: </strong>${email}</p><br><p>${message}</p>`,
       },
     ],
@@ -143,7 +158,7 @@ const prepareEmailRequest = (destinationEmail: string, fromEmailAddress: string,
       },
       openTracking: {
         enable: false,
-        substitutionTag: "%open-track%",
+        substitutionTag: '%open-track%',
       },
       subscriptionTracking: {
         enable: false,

@@ -1,15 +1,3 @@
-<script setup lang="ts">
-interface Props {
-  align?: "left" | "center" | "right";
-  underline?: boolean;
-}
-
-withDefaults(defineProps<Props>(), {
-  align: "left",
-  underline: true,
-});
-</script>
-
 <template>
   <div class="section-header" :class="[`text-${align}`, { 'with-underline': underline }]">
     <h2 class="text-h3 font-weight-bold">
@@ -24,8 +12,20 @@ withDefaults(defineProps<Props>(), {
   </div>
 </template>
 
+<script setup lang="ts">
+interface Props {
+  align?: 'left' | 'center' | 'right';
+  underline?: boolean;
+}
+
+withDefaults(defineProps<Props>(), {
+  align: 'left',
+  underline: true,
+});
+</script>
+
 <style scoped lang="scss">
-@use "vuetify/settings";
+@use 'vuetify/settings';
 
 .section-header {
   margin-bottom: 2rem;

@@ -1,16 +1,27 @@
 <template>
   <div v-if="socialIcons">
     <template v-for="(button, index) of socialIcons">
-      <v-btn v-if="button.network !== 'gitconnected'" variant="text" size="small" class="icon-link pa-0" v-bind:key="index" :href="button.url" target="_blank"><i :class="getDeviconClass(button.network)"></i></v-btn>
+      <v-btn
+        v-if="button.network !== 'gitconnected'"
+        :key="index"
+        variant="text"
+        size="small"
+        class="icon-link pa-0"
+        :href="button.url"
+        target="_blank"
+        ><i :class="getDeviconClass(button.network)"></i
+      ></v-btn>
       <template v-else></template>
     </template>
-    <v-btn variant="text" size="small" class="icon-link" :href="mailTo"><v-icon>mdi-email-outline</v-icon></v-btn>
+    <v-btn variant="text" size="small" class="icon-link" :href="mailTo"
+      ><v-icon>mdi-email-outline</v-icon></v-btn
+    >
   </div>
 </template>
 
 <script setup lang="ts">
-import { useResumeStore } from "@/stores/store";
-import { getDeviconClass } from "@/utils/formatting";
+import { useResumeStore } from '@/stores/store';
+import { getDeviconClass } from '@/utils/formatting';
 
 defineProps({
   primary: Boolean,

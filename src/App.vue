@@ -11,15 +11,15 @@
 </template>
 
 <script setup lang="ts">
-import AppFooter from "@/components/AppFooter.vue";
-import AppHeader from "@/components/AppHeader.vue";
-import LoadingDialog from "@/components/LoadingDialog.vue";
-import type { ProfileResponse } from "@/interfaces/profile-response";
-import { useResumeStore } from "@/stores/store";
-import axios from "axios";
-import debounce from "lodash/debounce";
-import { onBeforeMount, onMounted, onUnmounted, ref } from "vue";
-import { useTheme } from "vuetify";
+import AppFooter from '@/components/Footer.vue';
+import AppHeader from '@/components/Header.vue';
+import LoadingDialog from '@/components/LoadingDialog.vue';
+import type { ProfileResponse } from '@/interfaces/profile-response';
+import { useResumeStore } from '@/stores/store';
+import axios from 'axios';
+import debounce from 'lodash/debounce';
+import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
+import { useTheme } from 'vuetify';
 
 const useScrollHandler = () => {
   const isAtTheTopOfPage = ref(true);
@@ -31,11 +31,11 @@ const useScrollHandler = () => {
 
   onMounted(() => {
     handleDebouncedScroll = debounce(handleScroll, 100);
-    window.addEventListener("scroll", handleDebouncedScroll);
+    window.addEventListener('scroll', handleDebouncedScroll);
   });
 
   onUnmounted(() => {
-    window.removeEventListener("scroll", handleDebouncedScroll);
+    window.removeEventListener('scroll', handleDebouncedScroll);
   });
 
   return { isAtTheTopOfPage };
@@ -52,7 +52,11 @@ const fetchProfile = async () => {
   apiError.value = false;
 
   try {
-    const response = await axios.post("portfolio", { gitConnectedProfileKey: store.gitConnectedProfileKey }, { headers: { "Content-Type": "application/json" } });
+    const response = await axios.post(
+      'portfolio',
+      { gitConnectedProfileKey: store.gitConnectedProfileKey },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
 
     const { profile, siteMetaData } = response.data as ProfileResponse;
     store.$patch((state) => {
@@ -67,15 +71,15 @@ const fetchProfile = async () => {
 };
 
 onBeforeMount(() => {
-  theme.global.name.value = localStorage.getItem("darkTheme") === "true" ? "dark" : "light";
+  theme.global.name.value = localStorage.getItem('darkTheme') === 'true' ? 'dark' : 'light';
   fetchProfile();
 });
 </script>
 
 <style lang="scss">
-@use "node_modules/vuetify/settings";
-@import "node_modules/vuetify/styles";
-@import "theme";
+@use 'node_modules/vuetify/settings';
+@import 'node_modules/vuetify/styles';
+@import 'theme';
 
 :root {
   --scrollbar-width: 0.5rem;
@@ -86,7 +90,7 @@ onBeforeMount(() => {
 html {
   overflow-y: auto;
   scrollbar-width: thin;
-  scrollbar-color: map-get(settings.$grey, "lighten-2") map-get(settings.$grey, "base");
+  scrollbar-color: map-get(settings.$grey, 'lighten-2') map-get(settings.$grey, 'base');
 }
 
 ::-webkit-scrollbar {
@@ -96,12 +100,12 @@ html {
 
 ::-webkit-scrollbar-track {
   box-shadow: var(--scrollbar-shadow);
-  background-color: map-get(settings.$grey, "lighten-2");
+  background-color: map-get(settings.$grey, 'lighten-2');
 }
 
 ::-webkit-scrollbar-thumb {
   border-radius: var(--scrollbar-radius);
-  background-color: map-get(settings.$grey, "base");
+  background-color: map-get(settings.$grey, 'base');
   box-shadow: var(--scrollbar-shadow);
 }
 

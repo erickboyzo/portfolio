@@ -5,17 +5,19 @@
         <v-col cols="12" class="d-flex justify-center py-1 mt-3">
           <IconLinks :primary="isDarkTheme" />
         </v-col>
-        <v-col cols="12" class="d-flex justify-center py-1 my-1"> &copy; {{ currentYear }} {{ copyRight }} </v-col>
+        <v-col cols="12" class="d-flex justify-center py-1 my-1">
+          &copy; {{ currentYear }} {{ copyRight }}
+        </v-col>
       </v-row>
     </v-container>
   </v-footer>
 </template>
 
 <script setup lang="ts">
-import IconLinks from "@/components/IconLinks.vue";
-import { useResumeStore } from "@/stores/store";
-import { computed } from "vue";
-import { useTheme } from "vuetify";
+import IconLinks from '@/components/IconLinks.vue';
+import { useResumeStore } from '@/stores/store';
+import { computed } from 'vue';
+import { useTheme } from 'vuetify';
 
 const theme = useTheme();
 const isDarkTheme = computed(() => theme.global.current.value.dark);

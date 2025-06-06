@@ -3,17 +3,29 @@
     <v-row no-gutters class="px-2">
       <v-col cols="12" sm="7">
         <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.content.greeting" />
-        <h1 class="font-weight-regular greeting-intro" v-html="replacePlaceholder(resumeMetaData.content.greetingIntro, resume.basics.name)" />
+        <h1
+          class="font-weight-regular greeting-intro"
+          v-html="replacePlaceholder(resumeMetaData.content.greetingIntro, resume.basics.name)" />
         <v-col class="px-0" cols="12" sm="12">
           <div class="title-headers">
             <span class="typewriter">
-              <h2 v-if="!typingDone" class="font-weight-regular">{{ displayText }}<span class="caret" :class="{ blink: isBlinking }" /></h2>
+              <h2 v-if="!typingDone" class="font-weight-regular">
+                {{ displayText }}<span class="caret" :class="{ blink: isBlinking }" />
+              </h2>
             </span>
-            <h1 v-if="typingDone" class="font-weight-regular role-title">{{ resume.basics.label }}.</h1>
+            <h1 v-if="typingDone" class="font-weight-regular role-title">
+              {{ resume.basics.label }}.
+            </h1>
           </div>
         </v-col>
         <v-col class="hidden-sm-and-up" cols="12" sm="5">
-          <v-img position="top center" class="rounded-circle v-responsive mx-auto" height="200" width="200" :alt="resume.basics.name" :src="resume.basics.image" />
+          <v-img
+            position="top center"
+            class="rounded-circle v-responsive mx-auto"
+            height="200"
+            width="200"
+            :alt="resume.basics.name"
+            :src="resume.basics.image" />
         </v-col>
         <v-col class="px-0" cols="12" sm="12">
           <p class="my-5" v-html="resume.basics.summary" />
@@ -21,13 +33,24 @@
         </v-col>
       </v-col>
       <v-col class="hidden-xs" cols="12" sm="5">
-        <v-img position="top center" class="rounded-circle mx-auto" height="320" width="350" :alt="resume.basics.name" :src="resume.basics.image" />
+        <v-img
+          position="top center"
+          class="rounded-circle mx-auto"
+          height="320"
+          width="350"
+          :alt="resume.basics.name"
+          :src="resume.basics.image" />
       </v-col>
       <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
         <v-btn size="x-large" color="primary" variant="tonal" @click="navigateTo('projects')">
           {{ resumeMetaData.navigation.viewProjects }}
         </v-btn>
-        <v-btn class="mx-2" size="x-large" color="primary" variant="tonal" @click="navigateTo('contact')">
+        <v-btn
+          class="mx-2"
+          size="x-large"
+          color="primary"
+          variant="tonal"
+          @click="navigateTo('contact')">
           {{ resumeMetaData.navigation.contactMe }}
         </v-btn>
         <IconLinks class="ml-md-3 d-flex justify-center" />
@@ -37,7 +60,12 @@
       </v-col>
     </v-row>
     <v-row no-gutters>
-      <v-col v-for="(skill, index) in resumeMetaData.professionalSkills" :key="`skill-${index}`" cols="12" sm="6" class="my-3">
+      <v-col
+        v-for="(skill, index) in resumeMetaData.professionalSkills"
+        :key="`skill-${index}`"
+        cols="12"
+        sm="6"
+        class="my-3">
         <v-card variant="tonal" class="ma-2 fill-height">
           <div class="d-flex flex-column justify-center pa-3">
             <div class="d-flex flex-column pa-2">
@@ -59,23 +87,24 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from "vue";
-import { useRouter } from "vue-router";
-import { useResumeStore } from "@/stores/store";
-import { replacePlaceholder } from "@/utils/formatting";
-import SectionHeader from "@/components/SectionHeader.vue";
-import IconLinks from "@/components/IconLinks.vue";
+import { ref, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { useResumeStore } from '@/stores/store';
+import { replacePlaceholder } from '@/utils/formatting';
+import SectionHeader from '@/components/SectionHeader.vue';
+import IconLinks from '@/components/IconLinks.vue';
 
 const router = useRouter();
 
 const store = useResumeStore();
 const { resume, siteMetaData: resumeMetaData } = store;
 
-const displayText = ref("");
+const displayText = ref('');
 const typingDone = ref(false);
 const isBlinking = ref(true);
 
-const getRandomDelay = (min: number, max: number): number => Math.floor(Math.random() * (max - min + 1) + min);
+const getRandomDelay = (min: number, max: number): number =>
+  Math.floor(Math.random() * (max - min + 1) + min);
 
 const navigateTo = (route: string): void => {
   router.push(route);
@@ -107,7 +136,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
-@use "vuetify/settings";
+@use 'vuetify/settings';
 
 .about {
   h1 {

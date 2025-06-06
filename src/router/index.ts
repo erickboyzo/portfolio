@@ -1,29 +1,29 @@
-import AboutView from "@/pages/About.vue";
-import { createRouter, createWebHistory } from "vue-router";
+import AboutView from '@/pages/About.vue';
+import { createRouter, createWebHistory } from 'vue-router';
 
 const routes = [
   {
-    path: "/",
-    name: "home",
-    redirect: "/about",
+    path: '/',
+    name: 'home',
+    redirect: '/about',
   },
   {
-    path: "/about",
-    name: "about",
+    path: '/about',
+    name: 'about',
     component: AboutView,
-    meta: { title: "About Page" },
+    meta: { title: 'About Page' },
   },
   {
-    path: "/projects",
-    name: "project",
-    component: () => import("@/pages/Projects.vue"),
-    meta: { title: "Projects Page" },
+    path: '/projects',
+    name: 'project',
+    component: () => import('@/pages/Projects.vue'),
+    meta: { title: 'Projects Page' },
   },
   {
-    path: "/contact",
-    name: "contact",
-    component: () => import("@/pages/ContactMe.vue"),
-    meta: { title: "Contact Page" },
+    path: '/contact',
+    name: 'contact',
+    component: () => import('@/pages/Contact.vue'),
+    meta: { title: 'Contact Page' },
   },
 ];
 

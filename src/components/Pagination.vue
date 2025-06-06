@@ -1,6 +1,13 @@
 <template>
   <div class="pagination">
-    <div role="button" aria-label="Previous page" class="arrow" :class="{ disabled: currentPage === 0 }" @click="prevPage" @keydown.enter="prevPage" tabindex="0">
+    <div
+      role="button"
+      aria-label="Previous page"
+      class="arrow"
+      :class="{ disabled: currentPage === 0 }"
+      tabindex="0"
+      @click="prevPage"
+      @keydown.enter="prevPage">
       <v-icon color="primary">mdi-chevron-left</v-icon>
     </div>
 
@@ -16,8 +23,7 @@
           class="circle"
           :class="{ active: page - 1 === currentPage }"
           @click="changePage(page - 1)"
-          @keydown.enter="changePage(page - 1)"
-        ></div>
+          @keydown.enter="changePage(page - 1)"></div>
       </div>
 
       <div class="mt-1 text-center text--secondary">
@@ -25,14 +31,21 @@
       </div>
     </div>
 
-    <div role="button" aria-label="Next page" class="arrow" :class="{ disabled: currentPage === pageCount - 1 }" @click="nextPage" @keydown.enter="nextPage" tabindex="0">
+    <div
+      role="button"
+      aria-label="Next page"
+      class="arrow"
+      :class="{ disabled: currentPage === pageCount - 1 }"
+      tabindex="0"
+      @click="nextPage"
+      @keydown.enter="nextPage">
       <v-icon color="primary">mdi-chevron-right</v-icon>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
   currentPage: number;
@@ -45,16 +58,16 @@ const props = withDefaults(defineProps<Props>(), {
 });
 
 const emit = defineEmits<{
-  (e: "update:currentPage", value: number): void;
-  (e: "pageChange", value: number): void;
+  (e: 'update:currentPage', value: number): void;
+  (e: 'pageChange', value: number): void;
 }>();
 
 const isFirstPage = computed(() => props.currentPage === 0);
 const isLastPage = computed(() => props.currentPage === props.pageCount - 1);
 
 const emitPageValue = (value: number): void => {
-  emit("update:currentPage", value);
-  emit("pageChange", value);
+  emit('update:currentPage', value);
+  emit('pageChange', value);
 };
 
 const changePage = (index: number): void => {
@@ -78,7 +91,7 @@ const prevPage = (): void => {
 </script>
 
 <style lang="scss" scoped>
-@use "vuetify/settings";
+@use 'vuetify/settings';
 
 .pagination {
   width: 100%;

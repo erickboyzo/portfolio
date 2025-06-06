@@ -1,9 +1,15 @@
 <template>
   <v-row>
-    <SwipeIndicator :is-first-page="currentPage === 0" :is-last-page="currentPage === totalPages - 1" :is-visible="showSwipeIndicator" />
+    <SwipeIndicator
+      :is-first-page="currentPage === 0"
+      :is-last-page="currentPage === totalPages - 1"
+      :is-visible="showSwipeIndicator" />
     <v-col v-for="project in currentProject" :key="project.id" cols="12" md="12">
       <div ref="swipeTarget" class="swipeable" :style="transitionStyle">
-        <v-card variant="tonal" class="my-1 full-card fade-in-right" :class="{ 'hidden-sm-and-down': true }">
+        <v-card
+          variant="tonal"
+          class="my-1 full-card fade-in-right"
+          :class="{ 'hidden-sm-and-down': true }">
           <v-card-text class="pb-0">
             <v-row>
               <v-col class="d-flex flex-column" cols="12" md="6">
@@ -12,20 +18,33 @@
                 </h2>
 
                 <div class="technology-icons my-3">
-                  <TechnologyIcon v-for="(icon, index) in project.libraries" :key="`lib-${index}`" :icon-name="icon" />
-                  <TechnologyIcon v-for="(icon, index) in project.languages" :key="`lang-${index}`" :icon-name="icon" />
+                  <TechnologyIcon
+                    v-for="(icon, index) in project.libraries"
+                    :key="`lib-${index}`"
+                    :icon-name="icon" />
+                  <TechnologyIcon
+                    v-for="(icon, index) in project.languages"
+                    :key="`lang-${index}`"
+                    :icon-name="icon" />
                 </div>
 
                 <p class="text--primary summary pa-2">
                   {{ project.summary }}
                 </p>
 
-                <ProjectLinks :github-url="project.githubUrl" :website-url="project.website" :resume-meta="resumeMetaData" />
+                <ProjectLinks
+                  :github-url="project.githubUrl"
+                  :website-url="project.website"
+                  :resume-meta="resumeMetaData" />
               </v-col>
 
               <v-col cols="12" md="6">
                 <div class="img-hover-zoom">
-                  <v-img :src="project.image || project.dynamicImage" height="250" class="white--text align-end project-image rounded mb-3" :alt="project.displayName" />
+                  <v-img
+                    :src="project.image || project.dynamicImage"
+                    height="250"
+                    class="white--text align-end project-image rounded mb-3"
+                    :alt="project.displayName" />
                 </div>
               </v-col>
             </v-row>
@@ -37,21 +56,24 @@
       </div>
     </v-col>
 
-    <pagination :current-page="currentPage" :page-count="totalPages" @page-change="handlePageChange" />
+    <pagination
+      :current-page="currentPage"
+      :page-count="totalPages"
+      @page-change="handlePageChange" />
   </v-row>
 </template>
 
 <script setup lang="ts">
-import Pagination from "@/components/Pagination.vue";
-import ProjectCard from "@/components/ProjectCard.vue";
-import ProjectLinks from "@/components/ProjectLinks.vue";
-import SwipeIndicator from "@/components/SwipeIndicator.vue";
-import TechnologyIcon from "@/components/TechnologyIcon.vue";
-import type { Project } from "@/interfaces/project";
-import { useResumeStore } from "@/stores/store";
-import { formatName } from "@/utils/formatting";
-import { useSwipe } from "@vueuse/core";
-import { computed, onMounted, onUnmounted, ref } from "vue";
+import Pagination from '@/components/Pagination.vue';
+import ProjectCard from '@/components/ProjectCard.vue';
+import ProjectLinks from '@/components/ProjectLinks.vue';
+import SwipeIndicator from '@/components/SwipeIndicator.vue';
+import TechnologyIcon from '@/components/TechnologyIcon.vue';
+import type { Project } from '@/interfaces/project';
+import { useResumeStore } from '@/stores/store';
+import { formatName } from '@/utils/formatting';
+import { useSwipe } from '@vueuse/core';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 
 interface Props {
   projects: Project[];
@@ -64,7 +86,9 @@ const props = defineProps<Props>();
 const resumeMetaData = computed(() => useResumeStore().siteMetaData);
 const currentPage = ref(0);
 const totalPages = computed(() => props.projects.length);
-const currentProject = computed(() => props.projects.slice(currentPage.value, currentPage.value + 1));
+const currentProject = computed(() =>
+  props.projects.slice(currentPage.value, currentPage.value + 1)
+);
 const showSwipeIndicator = ref(true);
 const swipeIndicatorTimeout = ref<number | null>(null);
 const hasUserSwiped = ref(false);
@@ -100,8 +124,8 @@ const handlePageChange = (newPage: number): void => {
 };
 
 const transitionStyle = computed(() => ({
-  transform: isSwiping.value ? `translateX(${direction.value.x}px)` : "translateX(0)",
-  transition: isSwiping.value ? "none" : "transform 0.3s ease-out",
+  transform: isSwiping.value ? `translateX(${direction.value.x}px)` : 'translateX(0)',
+  transition: isSwiping.value ? 'none' : 'transform 0.3s ease-out',
 }));
 
 onMounted(() => {
@@ -127,7 +151,7 @@ onUnmounted(() => {
 </script>
 
 <style lang="scss" scoped>
-@use "vuetify/settings";
+@use 'vuetify/settings';
 
 p.summary {
   flex-grow: 1;

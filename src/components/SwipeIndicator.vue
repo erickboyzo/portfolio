@@ -15,7 +15,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue";
+import { computed } from 'vue';
 
 interface Props {
   isFirstPage: boolean;
@@ -26,21 +26,21 @@ interface Props {
 const props = defineProps<Props>();
 
 const indicatorClass = computed(() => ({
-  "swipe-indicator--left": props.isLastPage,
-  "swipe-indicator--right": props.isFirstPage,
-  "swipe-indicator--both": !props.isFirstPage && !props.isLastPage,
+  'swipe-indicator--left': props.isLastPage,
+  'swipe-indicator--right': props.isFirstPage,
+  'swipe-indicator--both': !props.isFirstPage && !props.isLastPage,
 }));
 
 const indicatorIcon = computed(() => {
-  if (props.isLastPage) return "mdi-chevron-left";
-  if (props.isFirstPage) return "mdi-chevron-right";
-  return "mdi-chevron-right";
+  if (props.isLastPage) return 'mdi-chevron-left';
+  if (props.isFirstPage) return 'mdi-chevron-right';
+  return 'mdi-chevron-right';
 });
 
 const indicatorText = computed(() => {
-  if (props.isLastPage) return "Swipe right for previous";
-  if (props.isFirstPage) return "Swipe left for next";
-  return "Swipe to navigate";
+  if (props.isLastPage) return 'Swipe right for previous';
+  if (props.isFirstPage) return 'Swipe left for next';
+  return 'Swipe to navigate';
 });
 </script>
 

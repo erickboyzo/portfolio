@@ -7,37 +7,37 @@ interface DeviconConfig {
 
 const config: DeviconConfig = {
   deviconMap: {
-    html: "html5",
-    angular: "angularjs",
-    scss: "sass",
-    "node.js": "nodejs",
-    vue: "vuejs",
-    vite: "vitejs",
+    html: 'html5',
+    angular: 'angularjs',
+    scss: 'sass',
+    'node.js': 'nodejs',
+    vue: 'vuejs',
+    vite: 'vitejs',
   },
-  ommitColorFrom: ["github"],
-  useOriginal: ["express"],
-  waterMarkType: ["less"],
+  ommitColorFrom: ['github'],
+  useOriginal: ['express'],
+  waterMarkType: ['less'],
 };
 
 export function getDeviconClass(value: string): string {
   if (!value) return value;
 
-  const formattedValue = value.replace(/\s/g, "").toLowerCase();
+  const formattedValue = value.replace(/\s/g, '').toLowerCase();
   const mapped = config.deviconMap[formattedValue] ?? formattedValue;
 
-  let type = "plain";
+  let type = 'plain';
   if (config.useOriginal.includes(mapped)) {
-    type = "original";
+    type = 'original';
   } else if (config.waterMarkType.includes(mapped)) {
-    type = "plain-wordmark";
+    type = 'plain-wordmark';
   }
 
-  return `devicon-${mapped}-${type} ${config.ommitColorFrom.includes(mapped) ? "" : "colored"}`;
+  return `devicon-${mapped}-${type} ${config.ommitColorFrom.includes(mapped) ? '' : 'colored'}`;
 }
 
 export function formatName(value: string): string {
   if (!value) return value;
-  return value.replace(/-/g, " ");
+  return value.replace(/-/g, ' ');
 }
 
 export function replacePlaceholder(value: string, inputValue: string): string {
