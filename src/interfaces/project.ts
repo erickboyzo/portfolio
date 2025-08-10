@@ -14,6 +14,29 @@ export interface ImageResolution {
   };
 }
 
+export interface ImageResolution {
+  url: string;
+  size: number;
+  width: number;
+  height: number;
+}
+
+export interface ImageObject {
+  id: string;
+  rank: number;
+  isActive: boolean;
+  resolutions: {
+    micro: ImageResolution;
+    mobile: ImageResolution;
+    desktop: ImageResolution;
+    thumbnail: ImageResolution;
+  };
+}
+
+export interface Images {
+  [k: string]: ImageObject;
+}
+
 export interface Project {
   name?: string;
   description?: string;
@@ -24,8 +47,8 @@ export interface Project {
   url?: string;
   roles?: string[];
   entity?: string;
-  images: ImageResolution[];
+  images?: Images;
   type?: string;
 
-  [k: string]: string | string[] | ImageResolution[] | undefined;
+  [k: string]: string | string[] | Images | undefined;
 }
