@@ -1,85 +1,72 @@
 <template>
-  <v-card variant="tonal" class="my-5">
-    <div class="img-hover-zoom">
-      <v-img
-        :src="project.image || project.dynamicImage"
-        class="white--text align-end project-image"
-        height="200px" />
-    </div>
+  <v-card variant="tonal" class="my-5" :height="layout === 'horizontal' ? '325' : 'auto'">
+    <v-row :class="{ 'flex-column-reverse': layout === 'vertical' }" class="fill-height">
+      <v-col :cols="layout === 'vertical' ? 12 : 6">
+        <v-card-title
+          class="text-capitalize"
+          :class="layout === 'vertical' ? 'text-h5' : 'text-h4 ml-3 mt-3'">
+          {{ formatName(project.displayName as string) }}
+        </v-card-title>
 
-    <v-card-title class="text-capitalize text-h5">
-      {{ formatName(project.displayName) }}
-    </v-card-title>
+        <div :class="layout === 'vertical' ? 'ml-1' : 'technology-icons my-3 ml-4'">
+          <TechnologyIcon
+            v-for="icon in project.icons as string[]"
+            :key="icon"
+            :icon-name="icon"
+            :class="layout === 'vertical' ? 'ma-2' : ''" />
+        </div>
 
-    <div class="ml-3">
-      <TechnologyIcon
-        v-for="icon in [...project.libraries, ...project.languages]"
-        :key="icon"
-        :icon-name="icon"
-        class="ma-2" />
-    </div>
+        <v-card-text class="pb-0 description">
+          <p class="text--primary" :class="{ 'summary pa-2': layout === 'horizontal' }">
+            {{ project.summary }}
+          </p>
+        </v-card-text>
 
-    <v-card-subtitle class="text--secondary">
-      {{ resumeMetaData.content.description }}
-    </v-card-subtitle>
+        <v-card-actions>
+          <ProjectLinks
+            :github-url="project.githubUrl as string"
+            :website-url="project.website as string" />
+        </v-card-actions>
+      </v-col>
 
-    <v-card-text class="pb-0 description overflow-y-auto" style="height: 90px">
-      <p class="text--primary">{{ project.summary }}</p>
-    </v-card-text>
-
-    <v-card-actions>
-      <div class="d-flex actions my-2">
-        <v-tooltip location="bottom">
-          <template #activator="{ props }">
-            <v-btn
-              :href="project.githubUrl"
-              target="_blank"
-              color="primary"
-              text
-              v-bind="props"
-              size="large">
-              <v-icon class="mr-1">mdi-file-code-outline</v-icon>
-              Github
-            </v-btn>
-          </template>
-          <span>{{ resumeMetaData.actions.viewSource }}</span>
-        </v-tooltip>
-
-        <v-tooltip v-if="project.website" location="bottom">
-          <template #activator="{ props }">
-            <v-btn
-              :href="project.website"
-              target="_blank"
-              color="primary"
-              text
-              v-bind="props"
-              size="large">
-              <v-icon class="mr-1">mdi-web</v-icon>
-              Website
-            </v-btn>
-          </template>
-          <span>{{ resumeMetaData.actions.goToApp }}</span>
-        </v-tooltip>
-      </div>
-    </v-card-actions>
+      <!-- Image Column -->
+      <v-col :cols="layout === 'vertical' ? 12 : 6">
+        <v-carousel
+          :height="layout === 'vertical' ? '200' : '100%'"
+          hide-delimiters
+          :continuous="true"
+          :cycle="true"
+          class="img-hover-zoom"
+          :show-arrows="project.mappedImages?.length > 1">
+          <v-carousel-item
+            v-for="(image, index) in project.mappedImages"
+            :key="index"
+            class="fill-height">
+            <v-img
+              :src="image as string"
+              class="white--text align-end project-image"
+              :height="layout === 'vertical' ? '200' : '100%'" />
+          </v-carousel-item>
+        </v-carousel>
+      </v-col>
+    </v-row>
   </v-card>
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { useResumeStore } from '@/stores/store';
-import { formatName } from '@/utils/formatting';
-import type { Project } from '@/interfaces/project';
+import ProjectLinks from '@/components/ProjectLinks.vue';
 import TechnologyIcon from '@/components/TechnologyIcon.vue';
+import type { Project } from '@/interfaces/project';
+import { formatName } from '@/utils/formatting';
 
 interface Props {
   project: Project;
+  layout?: 'horizontal' | 'vertical';
 }
 
-defineProps<Props>();
-
-const resumeStore = useResumeStore();
-const resumeMetaData = computed(() => resumeStore.siteMetaData);
+withDefaults(defineProps<Props>(), {
+  layout: 'vertical',
+});
 </script>
 
 <style lang="scss" scoped>
@@ -94,6 +81,10 @@ const resumeMetaData = computed(() => resumeStore.siteMetaData);
   scrollbar-width: thin;
   scrollbar-color: rgb(var(--v-theme-primary)) rgb(var(--v-theme-surface-variant));
 
+  p {
+    overflow-y: auto;
+    height: 100px;
+  }
   &::-webkit-scrollbar {
     width: 0.25rem;
     height: 0.25rem;

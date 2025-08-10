@@ -13,6 +13,14 @@
           rel="stylesheet">
 </head>
 <body>
+<script>
+  (function() {
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+    const setting = localStorage.getItem('darkTheme') || 'false'
+    if (setting === 'dark' || (prefersDark && setting !== 'light'))
+     localStorage.setItem('darkTheme', 'true')
+  })()
+</script>
 <div id="app"></div>
 <script type="module" src="/src/main.ts"></script>
 </body>

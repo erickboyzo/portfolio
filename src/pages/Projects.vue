@@ -46,7 +46,7 @@
 import ProjectContainer from '@/components/ProjectContainer.vue';
 import SectionHeader from '@/components/SectionHeader.vue';
 import SkillCard from '@/components/SkillCard.vue';
-import type { Project } from '@/interfaces/project';
+import type { Images, Project } from '@/interfaces/project';
 import { useResumeStore } from '@/stores/store';
 import { computed, onMounted, ref } from 'vue';
 
@@ -70,20 +70,26 @@ const sortedSkills = computed(() => {
   return [...resume.skills].sort((a, b) => levelMap[b.level] - levelMap[a.level]);
 });
 
-// Props for v-skeleton-loader
 const skeletonAttrs = {
   class: 'mb-6',
   boilerplate: true,
   elevation: 4,
 };
 
-// Methods
 const processProjectImages = (projectData: Project[]) => {
-  return projectData.map((project) => ({
+  return projectData.map((project) => mapProjectImages(project));
+};
+
+const mapProjectImages = (project: Project) => {
+  const images = Object.values(project.images as Images).map(
+    (image) => image.resolutions.desktop.url
+  );
+  const icons = [...project.libraries, ...project.languages];
+  return {
     ...project,
-    dynamicImage: `/images/${getRandomDefaultImage()}`,
-    image: project.images[0]?.resolutions.desktop.url,
-  }));
+    mappedImages: images.length ? images : [`/images/${getRandomDefaultImage()}`],
+    icons,
+  };
 };
 
 const getRandomDefaultImage = () => {
@@ -96,7 +102,6 @@ const initializeProjects = () => {
   isLoading.value = false;
 };
 
-// Lifecycle
 onMounted(() => {
   initializeProjects();
 });
