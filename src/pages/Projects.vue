@@ -1,59 +1,50 @@
 <template>
-  <div class="project">
-    <v-container class="pa-0">
-      <SectionHeader>
-        {{ resumeMetaData.navigation.projects }}
-        <template #subtitle>
-          {{ resumeMetaData.sections.devExperienceSubTitle }}
-        </template>
-      </SectionHeader>
-
-      <template v-if="isLoading">
-        <v-row>
-          <v-col v-for="num in PLACEHOLDER_COUNT" :key="`placeholder-${num}`" cols="12" md="4">
-            <v-skeleton-loader v-bind="skeletonAttrs" type="card-avatar, article, actions" />
-          </v-col>
-        </v-row>
-      </template>
-
-      <template v-else>
+  <PageSkeletonLoader>
+    <div class="project">
+      <v-container class="pa-0">
+        <SectionHeader>
+          {{ resumeMetaData.navigation.projects }}
+          <template #subtitle>
+            {{ resumeMetaData.sections.devExperienceSubTitle }}
+          </template>
+        </SectionHeader>
         <v-row>
           <v-col cols="12">
             <ProjectContainer :projects="projects" />
           </v-col>
         </v-row>
-      </template>
-    </v-container>
+      </v-container>
 
-    <v-container v-if="!isLoading" class="px-0 py-10 my-5">
-      <SectionHeader>
-        {{ resumeMetaData.sections.techSkills }}
-        <template #subtitle>
-          {{ resumeMetaData.sections.techSkillsSubTitle }}
-        </template>
-      </SectionHeader>
+      <v-container class="px-0 py-10 my-5">
+        <SectionHeader>
+          {{ resumeMetaData.sections.techSkills }}
+          <template #subtitle>
+            {{ resumeMetaData.sections.techSkillsSubTitle }}
+          </template>
+        </SectionHeader>
 
-      <v-row>
-        <v-col v-for="(skill, index) in sortedSkills" :key="`skill-${index}`" sm="6" md="3">
-          <SkillCard :skill="skill" />
-        </v-col>
-      </v-row>
-    </v-container>
-  </div>
+        <v-row>
+          <v-col v-for="(skill, index) in sortedSkills" :key="`skill-${index}`" sm="6" md="3">
+            <SkillCard :skill="skill" />
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+  </PageSkeletonLoader>
 </template>
 
 <script setup lang="ts">
+import PageSkeletonLoader from '@/components/PageSkeletonLoader.vue';
 import ProjectContainer from '@/components/ProjectContainer.vue';
 import SectionHeader from '@/components/SectionHeader.vue';
 import SkillCard from '@/components/SkillCard.vue';
 import type { Images, Project } from '@/interfaces/project';
 import { useResumeStore } from '@/stores/store';
-import { computed, onMounted, ref } from 'vue';
-
-const PLACEHOLDER_COUNT = 9;
+import { storeToRefs } from 'pinia';
+import { computed, ref, watch } from 'vue';
 
 const store = useResumeStore();
-const { resumeData: resume, siteMetaData: resumeMetaData } = store;
+const { resumeData: resume, siteMetaData: resumeMetaData } = storeToRefs(store);
 
 const isLoading = ref(true);
 const projects = ref<Project[]>([]);
@@ -67,14 +58,8 @@ const sortedSkills = computed(() => {
     Expert: 4,
   };
 
-  return [...resume.skills].sort((a, b) => levelMap[b.level] - levelMap[a.level]);
+  return [...(resume.value.skills ?? [])].sort((a, b) => levelMap[b.level] - levelMap[a.level]);
 });
-
-const skeletonAttrs = {
-  class: 'mb-6',
-  boilerplate: true,
-  elevation: 4,
-};
 
 const processProjectImages = (projectData: Project[]) => {
   return projectData.map((project) => mapProjectImages(project));
@@ -84,7 +69,7 @@ const mapProjectImages = (project: Project) => {
   const images = Object.values(project.images as Images).map(
     (image) => image.resolutions.desktop.url
   );
-  const icons = [...project.libraries, ...project.languages];
+  const icons = [...(project.libraries as string[]), ...(project.languages as string[])];
   return {
     ...project,
     mappedImages: images.length ? images : [`/images/${getRandomDefaultImage()}`],
@@ -93,18 +78,24 @@ const mapProjectImages = (project: Project) => {
 };
 
 const getRandomDefaultImage = () => {
-  const defaultImages = resumeMetaData.defaultImages;
+  const defaultImages = resumeMetaData.value.defaultImages;
   return defaultImages[Math.floor(Math.random() * defaultImages.length)];
 };
 
 const initializeProjects = () => {
-  projects.value = processProjectImages([...resume.projects]);
+  projects.value = processProjectImages([...resume.value.projects]);
   isLoading.value = false;
 };
 
-onMounted(() => {
-  initializeProjects();
-});
+watch(
+  () => store.isLoading,
+  (isLoading) => {
+    if (!isLoading && resume.value.projects?.length) {
+      initializeProjects();
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss" scoped>

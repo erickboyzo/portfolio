@@ -36,4 +36,3 @@ const resumeMetaData = computed(() => resumeStore.siteMetaData);
     </v-tooltip>
   </div>
 </template>
-

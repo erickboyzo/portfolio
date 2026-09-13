@@ -37,7 +37,7 @@
           :continuous="true"
           :cycle="true"
           class="img-hover-zoom"
-          :show-arrows="project.mappedImages?.length > 1">
+          :show-arrows="(project.mappedImages as string[])?.length > 1">
           <v-carousel-item
             v-for="(image, index) in project.mappedImages"
             :key="index"

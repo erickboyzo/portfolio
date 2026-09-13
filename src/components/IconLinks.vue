@@ -22,13 +22,15 @@
 <script setup lang="ts">
 import { useResumeStore } from '@/stores/store';
 import { getDeviconClass } from '@/utils/formatting';
+import { computed } from 'vue';
 
 defineProps({
   primary: Boolean,
 });
-const socialIcons = useResumeStore().resume.basics.profiles;
-const email = useResumeStore().resume.basics.email;
-const mailTo = `mailto:${email};`;
+const store = useResumeStore();
+const socialIcons = computed(() => store.resume?.basics?.profiles);
+const email = computed(() => store.resume?.basics?.email);
+const mailTo = computed(() => `mailto:${email.value};`);
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 <template>
-  <v-footer app absolute>
+  <v-footer v-if="copyRight" app absolute>
     <v-container id="footer-container" class="fill-height footer-container">
       <v-row>
         <v-col cols="12" class="d-flex justify-center py-1 mt-3">
@@ -22,7 +22,7 @@ import { useTheme } from 'vuetify';
 const theme = useTheme();
 const isDarkTheme = computed(() => theme.global.current.value.dark);
 const currentYear = new Date().getFullYear();
-const copyRight = useResumeStore().resume.basics.name;
+const copyRight = useResumeStore().resume?.basics?.name;
 </script>
 
 <style lang="scss">

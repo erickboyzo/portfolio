@@ -35,6 +35,7 @@ interface Props {
 
 const swipeTarget = ref<HTMLElement | null>(null);
 const touchStartX = ref(0);
+const currentSwipeDistance = ref(0);
 const SWIPE_THRESHOLD = 50; // minimum distance for swipe
 const props = defineProps<Props>();
 const currentPage = ref(0);
@@ -48,14 +49,20 @@ const hasUserSwiped = ref(false);
 const { smAndDown } = useDisplay();
 const isMobile = computed(() => smAndDown.value);
 
-const { isSwiping, direction } = useSwipe(swipeTarget, {
+const { isSwiping } = useSwipe(swipeTarget, {
   onSwipeStart(e) {
     if (e.touches?.[0]) {
       touchStartX.value = e.touches[0].clientX;
+      currentSwipeDistance.value = 0;
       if (!hasUserSwiped.value) {
         showSwipeIndicatorTemporarily();
         hasUserSwiped.value = true;
       }
+    }
+  },
+  onSwipe(e) {
+    if (e.touches?.[0]) {
+      currentSwipeDistance.value = e.touches[0].clientX - touchStartX.value;
     }
   },
   onSwipeEnd(e) {
@@ -71,6 +78,8 @@ const { isSwiping, direction } = useSwipe(swipeTarget, {
         handlePageChange(currentPage.value + 1);
       }
     }
+
+    currentSwipeDistance.value = 0;
   },
 });
 
@@ -79,7 +88,7 @@ const handlePageChange = (newPage: number): void => {
 };
 
 const transitionStyle = computed(() => ({
-  transform: isSwiping.value ? `translateX(${direction.value.x}px)` : 'translateX(0)',
+  transform: isSwiping.value ? `translateX(${currentSwipeDistance.value}px)` : 'translateX(0)',
   transition: isSwiping.value ? 'none' : 'transform 0.3s ease-out',
 }));
 

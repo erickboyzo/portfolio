@@ -1,6 +1,6 @@
-import AboutView from '@/pages/About.vue';
+import type { SkeletonConfig } from '@/interfaces/skeleton-config';
 import { createRouter, createWebHistory } from 'vue-router';
-
+import { skeletonConfigs } from '@/config/skeleton-configs';
 const routes = [
   {
     path: '/',
@@ -10,20 +10,29 @@ const routes = [
   {
     path: '/about',
     name: 'about',
-    component: AboutView,
-    meta: { title: 'About Page' },
+    component: () => import('@/pages/About.vue'),
+    meta: {
+      title: 'About Page',
+      skeletonConfig: skeletonConfigs.about as SkeletonConfig,
+    },
   },
   {
     path: '/projects',
     name: 'project',
     component: () => import('@/pages/Projects.vue'),
-    meta: { title: 'Projects Page' },
+    meta: {
+      title: 'Projects Page',
+      skeletonConfig: skeletonConfigs.projects as SkeletonConfig,
+    },
   },
   {
     path: '/contact',
     name: 'contact',
     component: () => import('@/pages/Contact.vue'),
-    meta: { title: 'Contact Page' },
+    meta: {
+      title: 'Contact Page',
+      skeletonConfig: skeletonConfigs.contact as SkeletonConfig,
+    },
   },
 ];
 
