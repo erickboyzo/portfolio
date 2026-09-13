@@ -26,14 +26,14 @@ export default defineConfig({
   },
   server: {
     proxy: {
-      '/send-email': {
+      '/send-message': {
         target: 'http://127.0.0.1:8788', // Wrangler dev server
-        changeOrigin: true, // Required for CORS
+        changeOrigin: true,
         secure: false,
       },
       '/portfolio': {
         target: 'http://127.0.0.1:8788', // Wrangler dev server
-        changeOrigin: true, // Required for CORS
+        changeOrigin: true,
         secure: false,
       },
     },
