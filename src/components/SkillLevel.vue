@@ -13,22 +13,19 @@
 </template>
 
 <script setup lang="ts">
+import type { Skill } from '@/interfaces/skill';
 import { computed } from 'vue';
 
-interface Props {
-  skill: {
-    level: SkillLevel;
-  };
+interface SkillProps {
+  skill: Skill;
 }
 
-type SkillLevel = 'Learning' | 'Beginner' | 'Intermediate' | 'Advanced' | 'Expert';
+const props = defineProps<SkillProps>();
 
-const props = defineProps<Props>();
-
-const skillLevelClass = computed(() => props.skill.level.toLowerCase());
+const skillLevelClass = computed(() => props.skill?.level?.toLowerCase());
 
 const filledSquares = computed(() => {
-  const level = props.skill.level.toLowerCase();
+  const level = props?.skill?.level?.toLowerCase() ?? '';
   const maxFilled =
     {
       learning: 1,

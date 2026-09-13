@@ -1,93 +1,100 @@
 <template>
-  <div class="about mt-11">
-    <v-row no-gutters class="px-2">
-      <v-col cols="12" sm="7">
-        <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.content.greeting" />
-        <h1
-          class="font-weight-regular greeting-intro"
-          v-html="replacePlaceholder(resumeMetaData.content.greetingIntro, resume.basics.name)" />
-        <v-col class="px-0" cols="12" sm="12">
-          <div class="title-headers">
-            <span class="typewriter">
-              <h2 v-if="!typingDone" class="font-weight-regular">
-                {{ displayText }}<span class="caret" :class="{ blink: isBlinking }" />
-              </h2>
-            </span>
-            <h1 v-if="typingDone" class="font-weight-regular role-title">
-              {{ resume.basics.label }}.
-            </h1>
-          </div>
+  <!-- eslint-disable vue/no-v-html -- resume/site metadata is trusted, server-provided HTML -->
+  <PageSkeletonLoader>
+    <div class="about mt-11">
+      <v-row no-gutters class="px-2">
+        <v-col cols="12" sm="7">
+          <h1 class="d-flex font-weight-regular" v-html="resumeMetaData.content?.greeting" />
+          <h1
+            class="font-weight-regular greeting-intro"
+            v-html="
+              replacePlaceholder(resumeMetaData.content?.greetingIntro, resume.basics?.name)
+            " />
+          <v-col class="px-0" cols="12" sm="12">
+            <div class="title-headers">
+              <span class="typewriter">
+                <h2 v-if="!typingDone" class="font-weight-regular">
+                  {{ displayText }}<span class="caret" :class="{ blink: isBlinking }" />
+                </h2>
+              </span>
+              <h1 v-if="typingDone" class="font-weight-regular role-title">
+                {{ resume.basics.label }}.
+              </h1>
+            </div>
+          </v-col>
+          <v-col class="hidden-sm-and-up" cols="12" sm="5">
+            <v-img
+              position="top center"
+              class="rounded-circle v-responsive mx-auto"
+              height="200"
+              width="200"
+              :alt="resume.basics.name"
+              :src="resume.basics.image" />
+          </v-col>
+          <v-col class="px-0" cols="12" sm="12">
+            <p class="my-5" v-html="resume.basics.summary" />
+            <p class="my-5" v-html="resumeMetaData.content.aboutContactText" />
+          </v-col>
         </v-col>
-        <v-col class="hidden-sm-and-up" cols="12" sm="5">
+        <v-col class="hidden-xs" cols="12" sm="5">
           <v-img
             position="top center"
-            class="rounded-circle v-responsive mx-auto"
-            height="200"
-            width="200"
+            class="rounded-circle mx-auto"
+            height="320"
+            width="350"
             :alt="resume.basics.name"
             :src="resume.basics.image" />
         </v-col>
-        <v-col class="px-0" cols="12" sm="12">
-          <p class="my-5" v-html="resume.basics.summary" />
-          <p class="my-5" v-html="resumeMetaData.content.aboutContactText" />
+        <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
+          <v-btn size="x-large" color="primary" variant="tonal" @click="navigateTo('projects')">
+            {{ resumeMetaData.navigation.viewProjects }}
+          </v-btn>
+          <v-btn
+            class="mx-2"
+            size="x-large"
+            color="primary"
+            variant="tonal"
+            @click="navigateTo('contact')">
+            {{ resumeMetaData.navigation.contactMe }}
+          </v-btn>
+          <IconLinks class="ml-md-3 d-flex justify-center" />
         </v-col>
-      </v-col>
-      <v-col class="hidden-xs" cols="12" sm="5">
-        <v-img
-          position="top center"
-          class="rounded-circle mx-auto"
-          height="320"
-          width="350"
-          :alt="resume.basics.name"
-          :src="resume.basics.image" />
-      </v-col>
-      <v-col class="px-0 d-flex contact-me-container" cols="12" sm="12">
-        <v-btn size="x-large" color="primary" variant="tonal" @click="navigateTo('projects')">
-          {{ resumeMetaData.navigation.viewProjects }}
-        </v-btn>
-        <v-btn
-          class="mx-2"
-          size="x-large"
-          color="primary"
-          variant="tonal"
-          @click="navigateTo('contact')">
-          {{ resumeMetaData.navigation.contactMe }}
-        </v-btn>
-        <IconLinks class="ml-md-3 d-flex justify-center" />
-      </v-col>
-      <v-col class="mt-10" cols="12">
-        <SectionHeader>{{ resumeMetaData.sections.devExperienceTitle }}</SectionHeader>
-      </v-col>
-    </v-row>
-    <v-row no-gutters>
-      <v-col
-        v-for="(skill, index) in resumeMetaData.professionalSkills"
-        :key="`skill-${index}`"
-        cols="12"
-        sm="6"
-        class="my-3">
-        <v-card variant="tonal" class="ma-2 fill-height">
-          <div class="d-flex flex-column justify-center pa-3">
-            <div class="d-flex flex-column pa-2">
-              <div class="text-center">
-                <v-icon color="primary" size="80" class="v-icon project-icon mb-2">
-                  {{ skill.icon }}
-                </v-icon>
-              </div>
-              <div>
-                <h3 class="text-center mb-2">{{ skill.label }}</h3>
-                <p class="overview text-center">{{ skill.text }}</p>
+        <v-col class="mt-10" cols="12">
+          <SectionHeader>{{ resumeMetaData.sections.devExperienceTitle }}</SectionHeader>
+        </v-col>
+      </v-row>
+      <v-row no-gutters>
+        <v-col
+          v-for="(skill, index) in resumeMetaData.professionalSkills"
+          :key="`skill-${index}`"
+          cols="12"
+          sm="6"
+          class="my-3">
+          <v-card variant="tonal" class="ma-2 fill-height">
+            <div class="d-flex flex-column justify-center pa-3">
+              <div class="d-flex flex-column pa-2">
+                <div class="text-center">
+                  <v-icon color="primary" size="80" class="v-icon project-icon mb-2">
+                    {{ skill.icon }}
+                  </v-icon>
+                </div>
+                <div>
+                  <h3 class="text-center mb-2">{{ skill.label }}</h3>
+                  <p class="overview text-center">{{ skill.text }}</p>
+                </div>
               </div>
             </div>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </div>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+  </PageSkeletonLoader>
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import PageSkeletonLoader from '@/components/PageSkeletonLoader.vue';
+import { ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useRouter } from 'vue-router';
 import { useResumeStore } from '@/stores/store';
 import { replacePlaceholder } from '@/utils/formatting';
@@ -95,9 +102,8 @@ import SectionHeader from '@/components/SectionHeader.vue';
 import IconLinks from '@/components/IconLinks.vue';
 
 const router = useRouter();
-
 const store = useResumeStore();
-const { resume, siteMetaData: resumeMetaData } = store;
+const { resume, siteMetaData: resumeMetaData } = storeToRefs(store);
 
 const displayText = ref('');
 const typingDone = ref(false);
@@ -112,9 +118,18 @@ const navigateTo = (route: string): void => {
 
 const typeText = async (fullText: string): Promise<void> => {
   const delays = {
-    typing: { min: 100, max: 200 },
-    pause: { min: 200, max: 500 },
-    longPause: { min: 500, max: 1000 },
+    typing: {
+      min: 100,
+      max: 200,
+    },
+    pause: {
+      min: 200,
+      max: 500,
+    },
+    longPause: {
+      min: 500,
+      max: 1000,
+    },
   };
 
   for (let i = 0; i <= fullText.length; i++) {
@@ -130,9 +145,15 @@ const typeText = async (fullText: string): Promise<void> => {
   typingDone.value = true;
 };
 
-onMounted(() => {
-  typeText(resumeMetaData.content.title);
-});
+watch(
+  () => resumeMetaData.value.content?.title,
+  (title) => {
+    if (title && !displayText.value) {
+      typeText(title);
+    }
+  },
+  { immediate: true }
+);
 </script>
 
 <style lang="scss">

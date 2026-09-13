@@ -4,7 +4,7 @@
     height="70"
     density="comfortable"
     scroll-behavior="elevate"
-    :elevation="flushHeader ? null : 12"
+    :elevation="flushHeader ? undefined : 12"
     scroll-target="#content-container">
     <v-container class="pa-0 d-flex align-center">
       <v-app-bar-nav-icon
@@ -12,7 +12,7 @@
         variant="text"
         :icon="drawer ? 'mdi-backburger' : 'mdi-menu'"
         @click="toggleDrawer" />
-      <header-title :title="name" />
+      <header-title v-if="name" :title="name" />
       <v-spacer class="hidden-xs-only" />
       <v-toolbar-items class="hidden-sm-and-down button-nav">
         <v-btn
@@ -73,7 +73,7 @@ const resume = useResumeStore();
 const drawer = ref(false);
 const group = ref<null | string>(null);
 
-const name = computed(() => resume.resume.basics.name);
+const name = computed(() => resume?.resume?.basics?.name ?? '');
 
 const navigationLinks: NavigationLink[] = [
   {

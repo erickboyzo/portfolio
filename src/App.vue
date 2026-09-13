@@ -1,22 +1,16 @@
 <template>
   <v-app id="portfolio">
-    <template v-if="!loading">
-      <AppHeader :flush-header="isAtTheTopOfPage">
-        <RouterView />
-      </AppHeader>
-      <AppFooter />
-    </template>
-    <LoadingDialog :show="loading" :error="apiError" @retry="fetchProfile" />
+    <AppHeader :flush-header="isAtTheTopOfPage">
+      <RouterView />
+    </AppHeader>
+    <AppFooter />
   </v-app>
 </template>
 
 <script setup lang="ts">
 import AppFooter from '@/components/Footer.vue';
 import AppHeader from '@/components/Header.vue';
-import LoadingDialog from '@/components/LoadingDialog.vue';
-import type { ProfileResponse } from '@/interfaces/profile-response';
 import { useResumeStore } from '@/stores/store';
-import axios from 'axios';
 import debounce from 'lodash/debounce';
 import { onBeforeMount, onMounted, onUnmounted, ref } from 'vue';
 import { useTheme } from 'vuetify';
@@ -43,36 +37,11 @@ const useScrollHandler = () => {
 
 const theme = useTheme();
 const store = useResumeStore();
-const loading = ref(true);
-const apiError = ref(false);
 const { isAtTheTopOfPage } = useScrollHandler();
-
-const fetchProfile = async () => {
-  loading.value = true;
-  apiError.value = false;
-
-  try {
-    const response = await axios.post(
-      'portfolio',
-      { gitConnectedProfileKey: store.gitConnectedProfileKey },
-      { headers: { 'Content-Type': 'application/json' } }
-    );
-
-    const { profile, siteMetaData } = response.data as ProfileResponse;
-    store.$patch((state) => {
-      state.resumeData = profile;
-      state.metaData = siteMetaData;
-    });
-    loading.value = false;
-    apiError.value = false;
-  } catch (error) {
-    apiError.value = true;
-  }
-};
 
 onBeforeMount(() => {
   theme.global.name.value = localStorage.getItem('darkTheme') === 'true' ? 'dark' : 'light';
-  fetchProfile();
+  store.fetchProfile();
 });
 </script>
 
