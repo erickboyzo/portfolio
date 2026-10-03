@@ -23,10 +23,26 @@
           </template>
         </SectionHeader>
 
-        <v-row>
-          <v-col v-for="(skill, index) in sortedSkills" :key="`skill-${index}`" sm="6" md="3">
+        <TransitionGroup name="skill" tag="div" class="v-row">
+          <v-col
+            v-for="(skill, index) in visibleSkills"
+            :key="`skill-${index}`"
+            :style="{ '--skill-delay': `${Math.max(index - SKILLS_LIMIT, 0) * 60}ms` }"
+            sm="6"
+            md="3">
             <SkillCard :skill="skill" />
           </v-col>
+        </TransitionGroup>
+
+        <v-row v-if="sortedSkills.length > SKILLS_LIMIT" justify="center">
+          <v-btn variant="text" @click="showAllSkills = !showAllSkills">
+            {{ showAllSkills ? resumeMetaData.actions.showLess : resumeMetaData.actions.showMore }}
+            <template #append>
+              <v-icon class="toggle-icon" :class="{ 'toggle-icon--open': showAllSkills }">
+                mdi-chevron-down
+              </v-icon>
+            </template>
+          </v-btn>
         </v-row>
       </v-container>
     </div>
@@ -60,6 +76,13 @@ const sortedSkills = computed(() => {
 
   return [...(resume.value.skills ?? [])].sort((a, b) => levelMap[b.level] - levelMap[a.level]);
 });
+
+const SKILLS_LIMIT = 4;
+const showAllSkills = ref(false);
+
+const visibleSkills = computed(() =>
+  showAllSkills.value ? sortedSkills.value : sortedSkills.value.slice(0, SKILLS_LIMIT)
+);
 
 const processProjectImages = (projectData: Project[]) => {
   return projectData.map((project) => mapProjectImages(project));
@@ -107,5 +130,32 @@ watch(
 
 .experience-label {
   font-size: 0.813rem; // 13px converted to rem
+}
+
+.skill-enter-active {
+  transition:
+    opacity 0.4s ease,
+    transform 0.4s cubic-bezier(0.39, 0.575, 0.565, 1);
+  transition-delay: var(--skill-delay);
+}
+
+.skill-leave-active {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.skill-enter-from,
+.skill-leave-to {
+  opacity: 0;
+  transform: translateY(1.25rem) scale(0.95);
+}
+
+.toggle-icon {
+  transition: transform 0.3s ease;
+
+  &--open {
+    transform: rotate(180deg);
+  }
 }
 </style>

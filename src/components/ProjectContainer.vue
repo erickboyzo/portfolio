@@ -4,14 +4,13 @@
       :is-first-page="currentPage === 0"
       :is-last-page="currentPage === totalPages - 1"
       :is-visible="showSwipeIndicator" />
-    <v-col v-for="project in currentProject" :key="project.id as string" cols="12" md="12">
-      <div ref="swipeTarget" class="swipeable" :style="transitionStyle">
-        <project-card
-          :project="project"
-          :class="['fade-in-right']"
-          :layout="isMobile ? 'vertical' : 'horizontal'" />
-      </div>
-    </v-col>
+    <Transition :name="`project-slide-${slideDirection}`" mode="out-in" appear>
+      <v-col v-if="activeProject" :key="activeProject.id as string" cols="12" md="12">
+        <div ref="swipeTarget" class="swipeable" :style="transitionStyle">
+          <project-card :project="activeProject" :layout="isMobile ? 'vertical' : 'horizontal'" />
+        </div>
+      </v-col>
+    </Transition>
 
     <pagination
       :current-page="currentPage"
@@ -40,9 +39,8 @@ const SWIPE_THRESHOLD = 50; // minimum distance for swipe
 const props = defineProps<Props>();
 const currentPage = ref(0);
 const totalPages = computed(() => props.projects.length);
-const currentProject = computed(() =>
-  props.projects.slice(currentPage.value, currentPage.value + 1)
-);
+const activeProject = computed(() => props.projects[currentPage.value]);
+const slideDirection = ref<'next' | 'prev'>('next');
 const showSwipeIndicator = ref(true);
 const swipeIndicatorTimeout = ref<number | null>(null);
 const hasUserSwiped = ref(false);
@@ -84,6 +82,7 @@ const { isSwiping } = useSwipe(swipeTarget, {
 });
 
 const handlePageChange = (newPage: number): void => {
+  slideDirection.value = newPage >= currentPage.value ? 'next' : 'prev';
   currentPage.value = newPage;
 };
 
@@ -121,27 +120,42 @@ p.summary {
   flex-grow: 1;
 }
 
-.fade-in-right {
-  animation: fade-in-right 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
-}
-
-@keyframes fade-in-right {
-  0% {
-    transform: translateX(3.125rem);
-    opacity: 0;
-  }
-  100% {
-    transform: translateX(0);
-    opacity: 1;
-  }
-}
-
 .swipeable {
   touch-action: pan-y pinch-zoom;
 }
 
-.fade-in-right {
-  will-change: transform;
-  transition: transform 0.3s ease-out;
+.project-slide-next-enter-active,
+.project-slide-prev-enter-active {
+  transition:
+    opacity 0.45s ease,
+    transform 0.45s cubic-bezier(0.39, 0.575, 0.565, 1);
+}
+
+.project-slide-next-leave-active,
+.project-slide-prev-leave-active {
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease-in;
+}
+
+.project-slide-next-enter-from,
+.project-slide-prev-leave-to {
+  opacity: 0;
+  transform: translateX(3.125rem);
+}
+
+.project-slide-next-leave-to,
+.project-slide-prev-enter-from {
+  opacity: 0;
+  transform: translateX(-3.125rem);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-slide-next-enter-active,
+  .project-slide-prev-enter-active,
+  .project-slide-next-leave-active,
+  .project-slide-prev-leave-active {
+    transition: opacity 0.2s ease;
+  }
 }
 </style>
