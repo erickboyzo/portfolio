@@ -1,14 +1,21 @@
 <template>
-  <v-card variant="tonal" class="my-5" :height="layout === 'horizontal' ? '325' : 'auto'">
+  <v-card
+    variant="tonal"
+    class="my-5 project-card"
+    :height="layout === 'horizontal' ? '325' : 'auto'">
     <v-row :class="{ 'flex-column-reverse': layout === 'vertical' }" class="fill-height">
       <v-col :cols="layout === 'vertical' ? 12 : 6">
         <v-card-title
-          class="text-capitalize"
-          :class="layout === 'vertical' ? 'text-h5' : 'text-h4 ml-3 mt-3'">
+          class="text-capitalize reveal"
+          :class="layout === 'vertical' ? 'text-h5' : 'text-h4 ml-3 mt-3'"
+          style="--reveal-delay: 100ms">
           {{ formatName(project.displayName as string) }}
         </v-card-title>
 
-        <div :class="layout === 'vertical' ? 'ml-1' : 'technology-icons my-3 ml-4'">
+        <div
+          class="reveal"
+          :class="layout === 'vertical' ? 'ml-1' : 'technology-icons my-3 ml-4'"
+          style="--reveal-delay: 200ms">
           <TechnologyIcon
             v-for="icon in project.icons as string[]"
             :key="icon"
@@ -16,13 +23,13 @@
             :class="layout === 'vertical' ? 'ma-2' : ''" />
         </div>
 
-        <v-card-text class="pb-0 description">
+        <v-card-text class="pb-0 description reveal" style="--reveal-delay: 300ms">
           <p class="text--primary" :class="{ 'summary pa-2': layout === 'horizontal' }">
             {{ project.summary }}
           </p>
         </v-card-text>
 
-        <v-card-actions>
+        <v-card-actions class="reveal" style="--reveal-delay: 400ms">
           <ProjectLinks
             :github-url="project.githubUrl as string"
             :website-url="project.website as string" />
@@ -120,6 +127,44 @@ withDefaults(defineProps<Props>(), {
     &:hover {
       transform: scale(1.3);
     }
+  }
+}
+
+.project-card {
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-0.25rem);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.2);
+  }
+}
+
+.reveal {
+  animation: reveal-up 0.5s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  animation-delay: var(--reveal-delay, 0ms);
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card,
+  .project-card:hover {
+    transform: none;
+  }
+
+  .reveal {
+    animation: none;
   }
 }
 </style>
